@@ -1,21 +1,22 @@
+"use client";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import TextField from "@mui/material/TextField";
+import { useState } from "react";
 
 export default function Home() {
-  const markdown = `
-# Título
-**Negrito**  
-_Listas_  
-- item 1  
-- item 2  
-
-| Nome | Idade |
-|------|-------|
-| João | 20    |
-`;
+  const [markdown, setMarkdown] = useState<string>("");
 
   return (
     <div className="prose">
+      <TextField
+        label="Escreva Aqui"
+        multiline
+        rows={4}
+        fullWidth
+        value={markdown}
+        onChange={(e) => setMarkdown(e.target.value)}
+      />
       <ReactMarkdown remarkPlugins={[remarkGfm]}>{markdown}</ReactMarkdown>
     </div>
   );
