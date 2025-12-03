@@ -5,11 +5,15 @@ import TextField from "@mui/material/TextField";
 import { useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import {
-  toTitle,
+  toH1,
+  toH2,
+  toH3,
   toInlineCode,
   toItalic,
   toBold,
   toUnorderedList,
+  toOrderedList,
+  toBlockquote,
 } from "./utils/MarkdownApply";
 
 export default function Home() {
@@ -35,8 +39,14 @@ export default function Home() {
 
   return (
     <div className="prose">
-      <Button variant="outlined" onClick={selectAndEditText(toTitle)}>
-        Título
+      <Button variant="outlined" onClick={selectAndEditText(toH1)}>
+        H1
+      </Button>
+      <Button variant="outlined" onClick={selectAndEditText(toH2)}>
+        H2
+      </Button>
+      <Button variant="outlined" onClick={selectAndEditText(toH3)}>
+        H3
       </Button>
       <Button variant="outlined" onClick={selectAndEditText(toBold)}>
         Negrito
@@ -49,6 +59,12 @@ export default function Home() {
       </Button>
       <Button variant="outlined" onClick={selectAndEditText(toUnorderedList)}>
         Lista desordenada
+      </Button>
+      <Button variant="outlined" onClick={selectAndEditText(toOrderedList)}>
+        Lista Ordenada
+      </Button>
+      <Button variant="outlined" onClick={selectAndEditText(toBlockquote)}>
+        Quote
       </Button>
       <TextField
         label="Escreva Aqui"
