@@ -4,14 +4,17 @@ import remarkGfm from "remark-gfm";
 import TextField from "@mui/material/TextField";
 import { useRef, useState } from "react";
 import Button from "@mui/material/Button";
+import {
+  toTitle,
+  toInlineCode,
+  toItalic,
+  toBold,
+  toUnorderedList,
+} from "./utils/MarkdownApply";
 
 export default function Home() {
   const [markdown, setMarkdown] = useState<string>("");
   const ref = useRef<HTMLTextAreaElement | null>(null);
-
-  const toTitle = (text: string) => `# ${text}`;
-  const toBold = (text: string) => `**${text}**`;
-  const toItalic = (text: string) => `*${text}*`;
 
   const selectAndEditText = (editFn: (text: string) => string) => {
     return () => {
@@ -40,6 +43,12 @@ export default function Home() {
       </Button>
       <Button variant="outlined" onClick={selectAndEditText(toItalic)}>
         Italíco
+      </Button>
+      <Button variant="outlined" onClick={selectAndEditText(toInlineCode)}>
+        code
+      </Button>
+      <Button variant="outlined" onClick={selectAndEditText(toUnorderedList)}>
+        Lista desordenada
       </Button>
       <TextField
         label="Escreva Aqui"
