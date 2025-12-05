@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import DocumentsProvider from "../context/DocumentsContext";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import ClientProviders from "../components/ClientProviders";
 
 export const metadata: Metadata = {
   title: "Editor de Markdown",
@@ -24,10 +14,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <DocumentsProvider>{children}</DocumentsProvider>
+      <body>
+        <ClientProviders>{children}</ClientProviders>
       </body>
     </html>
   );

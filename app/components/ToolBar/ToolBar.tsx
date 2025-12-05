@@ -1,3 +1,4 @@
+"use client"
 import { Toolbar, Button } from "@mui/material";
 
 import {
