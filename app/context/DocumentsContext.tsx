@@ -14,7 +14,7 @@ interface DocumentsContextProps {
   documents: Document[];
   getDocuments: () => Document[];
   getOneDocument: (id: string) => Document | null;
-  createDocument: (data: CreateDocumentDTO) => void;
+  createDocument: (data: CreateDocumentDTO) => Document;
   deleteDocument: (id: string) => void;
   updateDocument: (id: string, data: UpdateDocumentDTO) => void;
 }
@@ -23,7 +23,7 @@ export const DocumentsContext = createContext<DocumentsContextProps>({
   documents: [],
   getDocuments: () => [],
   getOneDocument: (id: string) => null,
-  createDocument: (data: CreateDocumentDTO) => null,
+  createDocument: (data: CreateDocumentDTO) => Object(),
   deleteDocument: (id: string) => null,
   updateDocument: (id: string, data: UpdateDocumentDTO) => null,
 });
@@ -99,6 +99,8 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
     };
 
     setDocuments((prev) => [...prev, newDocument]);
+
+    return newDocument;
   };
 
   const deleteDocument = (id: string) => {

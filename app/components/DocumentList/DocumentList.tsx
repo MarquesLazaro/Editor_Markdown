@@ -1,3 +1,4 @@
+import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import { Document } from "@/app/types/Document";
 import {
   Box,
@@ -7,12 +8,28 @@ import {
   ListItemText,
   Typography,
   useTheme,
+  Button,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
+import React from "react";
 
-const DocumentsList = ({ documents }: { documents: Document[] }) => {
+interface DocumentListProps {
+  documents: Document[];
+}
+
+const DocumentsList = ({ documents }: DocumentListProps) => {
   const router = useRouter();
   const theme = useTheme();
+  const { createDocument } = useDocumentsContext();
+
+  const onClick = () => {
+    const { id } = createDocument({
+      title: "Novo Documento",
+      content: "",
+    });
+
+    router.push(`/${id}`);
+  };
 
   return (
     <>
@@ -23,6 +40,7 @@ const DocumentsList = ({ documents }: { documents: Document[] }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexDirection: "column",
           backgroundColor: theme.palette.background.default,
         }}
       >
@@ -64,6 +82,24 @@ const DocumentsList = ({ documents }: { documents: Document[] }) => {
             </ListItem>
           ))}
         </List>
+
+        <Button
+          onClick={onClick}
+          sx={{
+            backgroundColor: "blue",
+            margin: "1rem",
+            color: "white",
+            width: "100%",
+            maxWidth: 400,
+            borderRadius: "3rem",
+
+            "&:hover": {
+              backgroundColor: "grey",
+            },
+          }}
+        >
+          Novo Documento
+        </Button>
       </Box>
     </>
   );
