@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { createContext, useContext, useEffect, useState } from "react";
 import {
   CreateDocumentDTO,
@@ -11,7 +11,6 @@ interface DocumentsProviderProps {
 }
 
 interface DocumentsContextProps {
-  documents: Document[];
   getDocuments: () => Document[];
   getOneDocument: (id: string) => Document | null;
   createDocument: (data: CreateDocumentDTO) => void;
@@ -19,9 +18,7 @@ interface DocumentsContextProps {
   updateDocument: (id: string, data: UpdateDocumentDTO) => void;
 }
 
-export const DocumentsContext = createContext<DocumentsContextProps | null>(
-  null
-);
+export const DocumentsContext = createContext<DocumentsContextProps>({});
 
 const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -69,7 +66,6 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   };
 
   const value = {
-    documents,
     getDocuments,
     getOneDocument,
     createDocument,
