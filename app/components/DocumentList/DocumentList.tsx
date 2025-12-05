@@ -1,27 +1,64 @@
-"use client";
-
+import { Document } from "@/app/types/Document";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useRouter } from "next/navigation";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import { Box, ListItemButton } from "@mui/material";
-import { Document } from "@/app/types/Document";
-
-interface DocumentListProps {
-  documents: Document[];
-}
-
-const DocumentList = ({ documents }: DocumentListProps) => {
+const DocumentsList = ({ documents }: { documents: Document[] }) => {
   const router = useRouter();
+  const theme = useTheme();
 
   return (
     <>
-      <Box sx={{ backgroundColor: "red", margin: 0 }}>
-        <List>
+      <Box
+        sx={{
+          height: "100vh",
+          width: "100vw",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: theme.palette.background.default,
+        }}
+      >
+        <List
+          sx={{
+            width: "100%",
+            maxWidth: 400,
+            borderRadius: theme.shape.borderRadius,
+            boxShadow: theme.shadows[3],
+            p: 3,
+            backgroundColor: theme.palette.background.paper,
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              mb: 2,
+              textAlign: "center",
+              color: theme.palette.text.primary,
+              fontSize: "bold",
+            }}
+          >
+            Seus Documentos
+          </Typography>
+
           {documents.map((doc) => (
-            <ListItem key={doc.id}>
-              <ListItemButton onClick={() => router.push(`/${doc.id}`)}>
+            <ListItem key={doc.id} disablePadding>
+              <ListItemButton
+                onClick={() => router.push(`/${doc.id}`)}
+                sx={{
+                  borderRadius: 1,
+                  "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                  },
+                }}
+              >
                 <ListItemText primary={doc.title} />
               </ListItemButton>
             </ListItem>
@@ -32,4 +69,4 @@ const DocumentList = ({ documents }: DocumentListProps) => {
   );
 };
 
-export default DocumentList;
+export default DocumentsList;
