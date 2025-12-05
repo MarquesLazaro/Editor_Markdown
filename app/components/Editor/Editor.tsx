@@ -12,7 +12,6 @@ const Editor = ({ ref, markdown, setMarkdown }: EditorProps) => {
     <TextField
       label="Escreva Aqui"
       multiline
-      rows={4}
       fullWidth
       value={markdown}
       onChange={(e) => setMarkdown(e.target.value)}
