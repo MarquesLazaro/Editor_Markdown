@@ -1,13 +1,15 @@
 "use client";
 
 import { useDocumentsContext } from "../context/DocumentsContext";
+import { useRouter } from "next/navigation";
+
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import { ListItemButton } from "@mui/material";
 
 export default function Home() {
+  const router = useRouter();
   const { documents } = useDocumentsContext();
 
   return (
@@ -15,8 +17,7 @@ export default function Home() {
       <List>
         {documents.map((doc) => (
           <ListItem key={doc.id}>
-            <InsertDriveFileIcon sx={{ mr: 1 }} />
-            <ListItemButton>
+            <ListItemButton onClick={() => router.push(`/${doc.id}`)}>
               <ListItemText primary={doc.title} />
             </ListItemButton>
           </ListItem>
