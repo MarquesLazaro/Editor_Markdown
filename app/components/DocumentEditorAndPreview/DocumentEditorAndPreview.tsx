@@ -19,6 +19,7 @@ const DocumentEditorAndPreview = ({
 }: DocumentEditorAndPreviewProps) => {
   return (
     <Stack direction="row" gap={1} sx={{ width: "100%", height: "100vh" }}>
+      
       <Box
         sx={{
           width: "50%",

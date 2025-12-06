@@ -1,12 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { useDocumentsContext } from "@/app/context/DocumentsContext";
 
-const EditableLabel = () => {
-  const [editing, setEditing] = useState(false);
-  const [value, setValue] = useState("Sem nome");
+interface EditableLabelProps {
+  id: string;
+  label: string;
+}
+
+const EditableLabel = ({ label, id }: EditableLabelProps) => {
+  const { updateDocument } = useDocumentsContext();
+  const [editing, setEditing] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>(label);
 
   const handleDoubleClick = () => {
     setEditing(true);
@@ -14,14 +21,20 @@ const EditableLabel = () => {
 
   const disableEditing = () => {
     setEditing(false);
+    updateDocument(id, { title });
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        marginLeft: "1rem",
+        marginBottom: "0.5rem",
+      }}
+    >
       {editing ? (
         <TextField
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           onBlur={disableEditing}
           onKeyDown={(e) => {
             if (e.key === "Enter") disableEditing();
@@ -30,9 +43,14 @@ const EditableLabel = () => {
           autoFocus
         />
       ) : (
-        <Typography onDoubleClick={handleDoubleClick}>{value}</Typography>
+        <Typography
+          sx={{ fontWeight: "bold" }}
+          onDoubleClick={handleDoubleClick}
+        >
+          {title}
+        </Typography>
       )}
-    </>
+    </Box>
   );
 };
 
