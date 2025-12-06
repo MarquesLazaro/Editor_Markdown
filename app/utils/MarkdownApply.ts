@@ -1,29 +1,31 @@
-export const toH1 = (text: string) => {
-  if (text.length == 0) return text;
+export const toHeading = (text: string) => {
+  if (text.length === 0) return text;
 
-  if (text.startsWith("# ")) return text.slice(2);
+  const headingRegex = /^(#+)\s(.*)/;
+  const match = text.match(headingRegex);
 
-  return `# ${text}`;
-};
+  if (match) {
+    console.log("match");
 
-export const toH2 = (text: string) => {
-  if (text.length == 0) return text;
+    const hashes = match[1];
+    const hashesCount = hashes.length;
+    const content = match[2];
 
-  if (text.startsWith("## ")) return text.slice(3);
+    if (hashesCount >= 6) return content;
+    else {
+      const newHashes = "#".repeat(hashesCount + 1);
 
-  return `## ${text}`;
-};
+      return `${newHashes} ${content}`;
+    }
+  }
 
-export const toH3 = (text: string) => {
-  if (text.length == 0) return text;
-
-  if (text.startsWith("### ")) return text.slice(4);
-
-  return `### ${text}`;
+  else{
+     return `# ${text}`
+  }
 };
 
 export const toBold = (text: string) => {
-  if (text.length == 0) return text;
+  if (text.length === 0) return text;
 
   if (text.startsWith("**") && text.endsWith("**")) return text.slice(2, -2);
 
@@ -31,7 +33,7 @@ export const toBold = (text: string) => {
 };
 
 export const toItalic = (text: string) => {
-  if (text.length == 0) return text;
+  if (text.length === 0) return text;
 
   if (text.startsWith("*") && text.endsWith("*")) return text.slice(1, -1);
 
@@ -39,7 +41,7 @@ export const toItalic = (text: string) => {
 };
 
 export const toInlineCode = (text: string) => {
-  if (text.length == 0) return text;
+  if (text.length === 0) return text;
 
   if (text.startsWith("`") && text.endsWith("`")) return text.slice(1, -1);
 
@@ -49,11 +51,11 @@ export const toInlineCode = (text: string) => {
 export const toUnorderedList = (text: string) => {
   const elements = text.split("\n");
 
-  if (text.length == 0) return text;
+  if (text.length === 0) return text;
 
   return elements
     .map((item) => {
-      if (item.length == 0) return item;
+      if (item.length === 0) return item;
       if (item.startsWith("- ")) return item.slice(2);
 
       return `- ${item}`;
@@ -64,11 +66,11 @@ export const toUnorderedList = (text: string) => {
 export const toOrderedList = (text: string) => {
   const elements = text.split("\n");
 
-  if (text.length == 0) return text;
+  if (text.length === 0) return text;
 
   return elements
     .map((item, idx) => {
-      if (item.length == 0) return item;
+      if (item.length === 0) return item;
       if (item.startsWith(`${idx + 1}. `)) return item.slice(2);
 
       return `${idx + 1}. ${item}`;
@@ -77,7 +79,7 @@ export const toOrderedList = (text: string) => {
 };
 
 export const toBlockquote = (text: string) => {
-  if (text.length == 0) return text;
+  if (text.length === 0) return text;
 
   if (text.startsWith(">")) return text.slice(1);
 

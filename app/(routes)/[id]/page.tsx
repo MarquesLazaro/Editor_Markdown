@@ -31,7 +31,7 @@ export default function ViewDocument() {
 
   return (
     <>
-      <ToolBar ref={ref} markdown={content} setMarkdown={setContent} />
+      <ToolBar ref={ref} content={content} setContent={setContent} />
       <EditableLabel label={document.title} id={document.id} />
       <DocumentEditorAndPreview
         ref={ref}

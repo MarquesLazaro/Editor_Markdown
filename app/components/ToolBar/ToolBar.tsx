@@ -12,9 +12,7 @@ import {
 } from "@mui/material";
 
 import {
-  toH1,
-  toH2,
-  toH3,
+  toHeading,
   toInlineCode,
   toItalic,
   toBold,
@@ -39,11 +37,11 @@ import ToolBarButton from "../ToolBarButton/ToolBarButton";
 
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
-  markdown: string;
-  setMarkdown: Dispatch<SetStateAction<string>>;
+  content: string;
+  setContent: Dispatch<SetStateAction<string>>;
 }
 
-const ToolBar = ({ ref, markdown, setMarkdown }: ToolBarProps) => {
+const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
 
@@ -51,16 +49,18 @@ const ToolBar = ({ ref, markdown, setMarkdown }: ToolBarProps) => {
     return () => {
       const textArea = ref.current;
 
-      const start = textArea?.selectionStart;
-      const end = textArea?.selectionEnd;
+      if (!textArea) return;
 
-      const selectedText = markdown.slice(start, end);
+      const start = textArea.selectionStart;
+      const end = textArea.selectionEnd;
+
+      const selectedText = content.slice(start, end);
       const editedText = editFn(selectedText);
 
-      const newMarkdown =
-        markdown.slice(0, start) + editedText + markdown.slice(end);
+      const newContent =
+        content.slice(0, start) + editedText + content.slice(end);
 
-      setMarkdown(newMarkdown);
+      setContent(newContent);
     };
   };
 
@@ -83,7 +83,7 @@ const ToolBar = ({ ref, markdown, setMarkdown }: ToolBarProps) => {
             <Folder />
           </IconButton>
 
-          <ToolBarButton onClick={() => {}}>
+          <ToolBarButton onClick={selectAndEditText(toHeading)}>
             <MdTextFields />
           </ToolBarButton>
 
