@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import DocumentsProvider from "../context/DocumentsContext";
 import ClientProviders from "../components/ClientProviders";
 
 export const metadata: Metadata = {

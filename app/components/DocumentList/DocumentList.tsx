@@ -82,7 +82,7 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
         <Button
           onClick={onClick}
           sx={{
-            backgroundColor: "blue",
+            backgroundColor: theme.palette.primary.main,
             margin: "1rem",
             color: "white",
             width: "100%",
@@ -90,7 +90,7 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
             borderRadius: "3rem",
 
             "&:hover": {
-              backgroundColor: "grey",
+              backgroundColor: theme.palette.primary.light,
             },
           }}
         >

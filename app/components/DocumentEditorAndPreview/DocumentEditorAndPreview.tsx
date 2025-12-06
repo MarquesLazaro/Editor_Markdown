@@ -18,13 +18,16 @@ const DocumentEditorAndPreview = ({
   setContent,
 }: DocumentEditorAndPreviewProps) => {
   return (
-    <Stack direction="row" gap={1} sx={{ width: "100%", height: "100vh" }}>
-      
+    <Stack
+      direction="row"
+      gap={1}
+      sx={{ width: "100%", height: "100vh", margin: "1rem" }}
+    >
       <Box
         sx={{
           width: "50%",
           height: "80%",
-          p: 2,
+          p: 1,
           border: "1px solid grey",
         }}
       >
@@ -36,7 +39,7 @@ const DocumentEditorAndPreview = ({
           width: "50%",
           height: "80%",
           border: "1px solid gray",
-          p: 2,
+          p: 1,
           overflow: "auto",
         }}
       >
