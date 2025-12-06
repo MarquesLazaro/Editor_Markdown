@@ -1,6 +1,6 @@
 "use client";
 
-import { RefObject, Dispatch, SetStateAction } from "react";
+import { RefObject, Dispatch, SetStateAction, useEffect } from "react";
 
 interface EditorProps {
   ref: RefObject<HTMLTextAreaElement | null>;
@@ -9,6 +9,17 @@ interface EditorProps {
 }
 
 const Editor = ({ ref, content, setContent }: EditorProps) => {
+  useEffect(() => {
+    const textarea = ref.current;
+
+    if (textarea) {
+      const end = textarea.value.length;
+
+      textarea.focus();
+      textarea.setSelectionRange(end, end);
+    }
+  }, []);
+
   return (
     <textarea
       value={content}

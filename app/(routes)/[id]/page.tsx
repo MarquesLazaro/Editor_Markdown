@@ -14,8 +14,7 @@ export default function ViewDocument() {
 
   const [content, setContent] = useState<string>("");
   const [document, setDocument] = useState<Document | null>(null);
-  const { createDocument, updateDocument, getOneDocument } =
-    useDocumentsContext();
+  const { getOneDocument } = useDocumentsContext();
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export default function ViewDocument() {
   return (
     <>
       <ToolBar ref={ref} content={content} setContent={setContent} />
-      <EditableLabel label={document.title} id={document.id} />
       <DocumentEditorAndPreview
         ref={ref}
         content={content}

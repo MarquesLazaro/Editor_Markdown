@@ -47,12 +47,12 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
 
   const selectAndEditText = (editFn: (text: string) => string) => {
     return () => {
-      const textArea = ref.current;
+      const textarea = ref.current;
 
-      if (!textArea) return;
+      if (!textarea) return;
 
-      const start = textArea.selectionStart;
-      const end = textArea.selectionEnd;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
 
       const selectedText = content.slice(start, end);
       const editedText = editFn(selectedText);

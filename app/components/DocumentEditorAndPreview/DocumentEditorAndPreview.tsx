@@ -21,14 +21,13 @@ const DocumentEditorAndPreview = ({
     <Stack
       direction="row"
       gap={1}
-      sx={{ width: "100%", height: "100vh", margin: "1rem" }}
+      sx={{ width: "100%", height: "100vh"}}
     >
       <Box
         sx={{
           width: "50%",
-          height: "80%",
-          p: 1,
-          border: "1px solid grey",
+          height: "100%",
+          overflow: "auto",
         }}
       >
         <Editor ref={ref} content={content} setContent={setContent} />
@@ -37,9 +36,7 @@ const DocumentEditorAndPreview = ({
       <Box
         sx={{
           width: "50%",
-          height: "80%",
-          border: "1px solid gray",
-          p: 1,
+          height: "100%",
           overflow: "auto",
         }}
       >
