@@ -7,6 +7,8 @@ import {
   IconButton,
   Typography,
   Box,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 
 import {
@@ -28,40 +30,18 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 
-import React, { RefObject, Dispatch, SetStateAction } from "react";
+import { MdTextFields } from "react-icons/md";
+
+import React, { RefObject, Dispatch, SetStateAction, useState } from "react";
 import { Folder } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
+import ToolBarButton from "../ToolBarButton/ToolBarButton";
 
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
   markdown: string;
   setMarkdown: Dispatch<SetStateAction<string>>;
 }
-
-const ToolButton = ({
-  onClick,
-  children,
-}: {
-  onClick: () => void;
-  children: React.ReactNode;
-}) => {
-  return (
-    <IconButton
-      color="inherit"
-      edge="start"
-      sx={{
-        borderRadius: 2,
-        "&:hover": {
-          backgroundColor: "rgba(255, 255, 255, 0.3)",
-          borderRadius: 2,
-        },
-      }}
-      onClick={onClick}
-    >
-      {children}
-    </IconButton>
-  );
-};
 
 const ToolBar = ({ ref, markdown, setMarkdown }: ToolBarProps) => {
   const theme = useTheme();
@@ -94,6 +74,7 @@ const ToolBar = ({ ref, markdown, setMarkdown }: ToolBarProps) => {
       sx={{
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.text.primary,
+        marginBottom: "0.5rem",
       }}
     >
       <Toolbar sx={{ minHeight: { xs: 48, sm: 48 } }}>
@@ -102,29 +83,33 @@ const ToolBar = ({ ref, markdown, setMarkdown }: ToolBarProps) => {
             <Folder />
           </IconButton>
 
-          <ToolButton onClick={selectAndEditText(toBold)}>
+          <ToolBarButton onClick={() => {}}>
+            <MdTextFields />
+          </ToolBarButton>
+
+          <ToolBarButton onClick={selectAndEditText(toBold)}>
             <FormatBoldIcon />
-          </ToolButton>
+          </ToolBarButton>
 
-          <ToolButton onClick={selectAndEditText(toItalic)}>
+          <ToolBarButton onClick={selectAndEditText(toItalic)}>
             <FormatItalicIcon />
-          </ToolButton>
+          </ToolBarButton>
 
-          <ToolButton onClick={selectAndEditText(toInlineCode)}>
+          <ToolBarButton onClick={selectAndEditText(toInlineCode)}>
             <CodeIcon />
-          </ToolButton>
+          </ToolBarButton>
 
-          <ToolButton onClick={selectAndEditText(toUnorderedList)}>
+          <ToolBarButton onClick={selectAndEditText(toUnorderedList)}>
             <FormatListBulletedIcon />
-          </ToolButton>
+          </ToolBarButton>
 
-          <ToolButton onClick={selectAndEditText(toOrderedList)}>
+          <ToolBarButton onClick={selectAndEditText(toOrderedList)}>
             <FormatListNumberedIcon />
-          </ToolButton>
+          </ToolBarButton>
 
-          <ToolButton onClick={selectAndEditText(toBlockquote)}>
+          <ToolBarButton onClick={selectAndEditText(toBlockquote)}>
             <FormatQuoteIcon />
-          </ToolButton>
+          </ToolBarButton>
         </Box>
       </Toolbar>
     </AppBar>
