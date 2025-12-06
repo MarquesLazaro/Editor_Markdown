@@ -74,10 +74,9 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
       sx={{
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.text.primary,
-        marginBottom: "0.5rem",
       }}
     >
-      <Toolbar sx={{ minHeight: { xs: 48, sm: 48 } }}>
+      <Toolbar >
         <Box sx={{ display: "flex", gap: 1 }}>
           <IconButton color="inherit" edge="start" onClick={toDocumentList}>
             <Folder />

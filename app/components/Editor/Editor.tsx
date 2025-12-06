@@ -35,8 +35,6 @@ const Editor = ({ ref, content, setContent }: EditorProps) => {
         fontSize: "1rem",
         fontFamily: "monospace",
         background: "transparent",
-        boxSizing: "border-box",
-        overflow: "visible",
       }}
     />
   );
