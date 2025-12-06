@@ -32,9 +32,10 @@ const Editor = ({ ref, content, setContent }: EditorProps) => {
         border: "none",
         resize: "none",
         outline: "none",
-        fontSize: "1rem",
         fontFamily: "monospace",
-        background: "transparent",
+        fontSize: "1rem",
+        padding: "1rem",
+        lineHeight: 1,
       }}
     />
   );

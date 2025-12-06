@@ -71,12 +71,13 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
   return (
     <AppBar
       position="static"
+      elevation={0}
       sx={{
         backgroundColor: theme.palette.primary.main,
         color: theme.palette.text.primary,
       }}
     >
-      <Toolbar >
+      <Toolbar>
         <Box sx={{ display: "flex", gap: 1 }}>
           <IconButton color="inherit" edge="start" onClick={toDocumentList}>
             <Folder />

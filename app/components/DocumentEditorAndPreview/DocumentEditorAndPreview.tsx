@@ -20,17 +20,18 @@ const DocumentEditorAndPreview = ({
   return (
     <Stack
       direction="row"
-      gap={1}
       sx={{
         width: "100%",
-        overflow: "auto",
+        overflow: "hidden",
         height: "100%",
+        backgroundColor: "red",
       }}
     >
       <Box
         sx={{
           width: "50%",
-          p: 1,
+          height: "100%",
+          overflow: "hidden",
         }}
       >
         <Editor ref={ref} content={content} setContent={setContent} />
@@ -39,7 +40,12 @@ const DocumentEditorAndPreview = ({
       <Box
         sx={{
           width: "50%",
-          overflow: "auto",
+          height: "100%",
+          backgroundColor: "#F5F5F5",
+          fontSize: "1rem",
+          fontFamily: "monospace",
+          padding: "1rem",
+          
         }}
       >
         <Preview content={content} />
