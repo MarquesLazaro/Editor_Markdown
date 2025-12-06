@@ -1,5 +1,13 @@
-"use client"
-import { Toolbar, Button } from "@mui/material";
+"use client";
+import {
+  Toolbar,
+  Button,
+  AppBar,
+  useTheme,
+  IconButton,
+  Typography,
+  Box,
+} from "@mui/material";
 
 import {
   toH1,
@@ -13,7 +21,16 @@ import {
   toBlockquote,
 } from "@/app/utils/MarkdownApply";
 
-import { RefObject, Dispatch, SetStateAction } from "react";
+import FormatBoldIcon from "@mui/icons-material/FormatBold";
+import FormatItalicIcon from "@mui/icons-material/FormatItalic";
+import CodeIcon from "@mui/icons-material/Code";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
+import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+
+import React, { RefObject, Dispatch, SetStateAction } from "react";
+import { Folder } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
 
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
@@ -21,7 +38,35 @@ interface ToolBarProps {
   setMarkdown: Dispatch<SetStateAction<string>>;
 }
 
+const ToolButton = ({
+  onClick,
+  children,
+}: {
+  onClick: () => void;
+  children: React.ReactNode;
+}) => {
+  return (
+    <IconButton
+      color="inherit"
+      edge="start"
+      sx={{
+        borderRadius: 2,
+        "&:hover": {
+          backgroundColor: "rgba(255, 255, 255, 0.3)",
+          borderRadius: 2,
+        },
+      }}
+      onClick={onClick}
+    >
+      {children}
+    </IconButton>
+  );
+};
+
 const ToolBar = ({ ref, markdown, setMarkdown }: ToolBarProps) => {
+  const theme = useTheme();
+  const router = useRouter();
+
   const selectAndEditText = (editFn: (text: string) => string) => {
     return () => {
       const textArea = ref.current;
@@ -38,36 +83,51 @@ const ToolBar = ({ ref, markdown, setMarkdown }: ToolBarProps) => {
       setMarkdown(newMarkdown);
     };
   };
+
+  const toDocumentList = () => {
+    router.push("/");
+  };
+
   return (
-    <Toolbar>
-      <Button variant="outlined" onClick={selectAndEditText(toH1)}>
-        H1
-      </Button>
-      <Button variant="outlined" onClick={selectAndEditText(toH2)}>
-        H2
-      </Button>
-      <Button variant="outlined" onClick={selectAndEditText(toH3)}>
-        H3
-      </Button>
-      <Button variant="outlined" onClick={selectAndEditText(toBold)}>
-        Negrito
-      </Button>
-      <Button variant="outlined" onClick={selectAndEditText(toItalic)}>
-        Italíco
-      </Button>
-      <Button variant="outlined" onClick={selectAndEditText(toInlineCode)}>
-        code
-      </Button>
-      <Button variant="outlined" onClick={selectAndEditText(toUnorderedList)}>
-        Lista desordenada
-      </Button>
-      <Button variant="outlined" onClick={selectAndEditText(toOrderedList)}>
-        Lista Ordenada
-      </Button>
-      <Button variant="outlined" onClick={selectAndEditText(toBlockquote)}>
-        Quote
-      </Button>
-    </Toolbar>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.text.primary,
+      }}
+    >
+      <Toolbar sx={{ minHeight: { xs: 48, sm: 48 } }}>
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <IconButton color="inherit" edge="start" onClick={toDocumentList}>
+            <Folder />
+          </IconButton>
+
+          <ToolButton onClick={selectAndEditText(toBold)}>
+            <FormatBoldIcon />
+          </ToolButton>
+
+          <ToolButton onClick={selectAndEditText(toItalic)}>
+            <FormatItalicIcon />
+          </ToolButton>
+
+          <ToolButton onClick={selectAndEditText(toInlineCode)}>
+            <CodeIcon />
+          </ToolButton>
+
+          <ToolButton onClick={selectAndEditText(toUnorderedList)}>
+            <FormatListBulletedIcon />
+          </ToolButton>
+
+          <ToolButton onClick={selectAndEditText(toOrderedList)}>
+            <FormatListNumberedIcon />
+          </ToolButton>
+
+          <ToolButton onClick={selectAndEditText(toBlockquote)}>
+            <FormatQuoteIcon />
+          </ToolButton>
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 
