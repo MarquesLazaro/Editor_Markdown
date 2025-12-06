@@ -11,7 +11,6 @@ import {
   Button,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 interface DocumentListProps {
   documents: Document[];
@@ -72,9 +71,6 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
                 onClick={() => router.push(`/${doc.id}`)}
                 sx={{
                   borderRadius: 1,
-                  "&:hover": {
-                    backgroundColor: theme.palette.action.hover,
-                  },
                 }}
               >
                 <ListItemText primary={doc.title} />
