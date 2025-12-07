@@ -9,6 +9,7 @@ import {
   Typography,
   useTheme,
   Button,
+  Divider,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 
@@ -31,40 +32,63 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        height: "100vh",
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        backgroundColor: theme.palette.background.paper,
+      }}
+    >
       <Box
         sx={{
-          height: "100vh",
-          width: "100vw",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
+          width: "100%",
+          maxWidth: "70%",
+          borderRadius: theme.shape.borderRadius,
+          p: 3,
           backgroundColor: theme.palette.background.default,
         }}
       >
-        <List
+        <Box
           sx={{
-            width: "100%",
-            maxWidth: 400,
-            borderRadius: theme.shape.borderRadius,
-            boxShadow: theme.shadows[3],
-            p: 3,
-            backgroundColor: theme.palette.background.paper,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           <Typography
             variant="h5"
             sx={{
-              mb: 2,
-              textAlign: "center",
+              ml: 2,
               color: theme.palette.text.primary,
               fontSize: "bold",
             }}
           >
             Seus Documentos
           </Typography>
+          <Button
+            onClick={onClick}
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              margin: "1rem",
+              color: "white",
+              width: "10rem",
+              borderRadius: "0.5rem",
 
+              "&:hover": {
+                backgroundColor: theme.palette.primary.light,
+              },
+            }}
+          >
+            Novo Documento
+          </Button>
+        </Box>
+
+        <Divider />
+        <List>
           {documents.map((doc) => (
             <ListItem key={doc.id} disablePadding>
               <ListItemButton
@@ -78,26 +102,8 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
             </ListItem>
           ))}
         </List>
-
-        <Button
-          onClick={onClick}
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            margin: "1rem",
-            color: "white",
-            width: "100%",
-            maxWidth: 400,
-            borderRadius: "3rem",
-
-            "&:hover": {
-              backgroundColor: theme.palette.primary.light,
-            },
-          }}
-        >
-          Novo Documento
-        </Button>
       </Box>
-    </>
+    </Box>
   );
 };
 
