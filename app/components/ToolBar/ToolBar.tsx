@@ -148,10 +148,7 @@ const ToolBar = ({ ref }: ToolBarProps) => {
           </Box>
 
           <Box sx={{ display: "flex", flex: 1, justifyContent: "center" }}>
-            <EditableLabel
-              label={currentDocument.title}
-              id={currentDocument.id}
-            />
+            <EditableLabel />
           </Box>
 
           <Box

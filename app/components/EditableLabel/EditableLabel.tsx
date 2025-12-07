@@ -1,22 +1,23 @@
 "use client";
 
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDocumentsContext } from "../../context/DocumentsContext";
 
-interface EditableLabelProps {
-  label: string;
-  id: string;
-}
+export default function EditableLabel() {
+  const { updateDocument, currentDocument } = useDocumentsContext();
+  const [editing, setEditing] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
 
-export default function EditableLabel({ label, id }: EditableLabelProps) {
-  const { updateDocument } = useDocumentsContext();
-  const [editing, setEditing] = useState(false);
-  const [title, setTitle] = useState(label);
+  useEffect(() => {
+    if (currentDocument) {
+      setTitle(currentDocument.title);
+    }
+  }, [currentDocument?.title]);
 
   const finish = () => {
     setEditing(false);
-    if (title !== label) updateDocument(id, { title });
+    updateDocument(currentDocument!.id, { title });
   };
 
   return (
