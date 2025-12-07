@@ -8,6 +8,13 @@ import {
   Alert,
   SlideProps,
   Slide,
+  Modal,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Button,
+  DialogActions,
 } from "@mui/material";
 
 import {
@@ -44,13 +51,13 @@ interface ToolBarProps {
   setContent: Dispatch<SetStateAction<string>>;
 }
 
-type TransitionProps = Omit<SlideProps, "direction">;
-
 const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
-  const { updateDocument, currentDocument } = useDocumentsContext();
-  const [open, setOpen] = useState<boolean>(false);
+  const { updateDocument, deleteDocument, currentDocument } =
+    useDocumentsContext();
+  const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const selectAndEditText = (editFn: (text: string) => string) => {
     return () => {
@@ -78,95 +85,141 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
   const handleSave = () => {
     if (currentDocument) {
       updateDocument(currentDocument.id, { content });
-      setOpen(true);
+      setOpenSnackbar(true);
     }
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleDeleteDocument = () => {
+    if (currentDocument) {
+      deleteDocument(currentDocument.id);
+      router.push("/");
+    }
   };
 
   return (
-    <AppBar
-      position="static"
-      elevation={0}
-      sx={{
-        backgroundColor: theme.palette.primary.main,
-        color: theme.palette.text.primary,
-      }}
-    >
-      <Toolbar>
-        <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          autoHideDuration={5000}
-          open={open}
-          onClose={handleClose}
-        >
-          <Alert
-            onClose={handleClose}
-            severity="success"
-            variant="filled"
-            sx={{ width: "100%" }}
+    <>
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>
+          <Typography variant="h6">Excluir Documento</Typography>
+        </DialogTitle>
+
+        <DialogContent dividers>
+          <Typography gutterBottom>
+            Deseja excluir o Documento? Essa é uma operação sem volta.
+          </Typography>
+        </DialogContent>
+
+        <DialogActions>
+          <Button onClick={handleCloseModal} color="error">
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleDeleteDocument}
+            variant="contained"
+            color="primary"
           >
-            Documento Salvo
-          </Alert>
-        </Snackbar>
-        <Box
-          sx={{
-            display: "flex",
-            width: "100%",
-            gap: 1,
-          }}
-        >
-          <IconButton color="inherit" edge="start" onClick={toDocumentList}>
-            <Folder />
-          </IconButton>
+            Excluir Documento
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <AppBar
+        position="static"
+        elevation={0}
+        sx={{
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.text.primary,
+        }}
+      >
+        <Toolbar>
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            autoHideDuration={5000}
+            open={openSnackbar}
+            onClose={handleCloseSnackbar}
+          >
+            <Alert
+              onClose={handleCloseSnackbar}
+              severity="success"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              Documento Salvo
+            </Alert>
+          </Snackbar>
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+              gap: 1,
+            }}
+          >
+            <IconButton color="inherit" edge="start" onClick={toDocumentList}>
+              <Folder />
+            </IconButton>
 
-          <ToolBarButton onClick={selectAndEditText(toHeading)}>
-            <MdTextFields />
-          </ToolBarButton>
+            <ToolBarButton onClick={selectAndEditText(toHeading)}>
+              <MdTextFields />
+            </ToolBarButton>
 
-          <ToolBarButton onClick={selectAndEditText(toBold)}>
-            <FormatBoldIcon />
-          </ToolBarButton>
+            <ToolBarButton onClick={selectAndEditText(toBold)}>
+              <FormatBoldIcon />
+            </ToolBarButton>
 
-          <ToolBarButton onClick={selectAndEditText(toItalic)}>
-            <FormatItalicIcon />
-          </ToolBarButton>
+            <ToolBarButton onClick={selectAndEditText(toItalic)}>
+              <FormatItalicIcon />
+            </ToolBarButton>
 
-          <ToolBarButton onClick={selectAndEditText(toInlineCode)}>
-            <CodeIcon />
-          </ToolBarButton>
+            <ToolBarButton onClick={selectAndEditText(toInlineCode)}>
+              <CodeIcon />
+            </ToolBarButton>
 
-          <ToolBarButton onClick={selectAndEditText(toUnorderedList)}>
-            <FormatListBulletedIcon />
-          </ToolBarButton>
+            <ToolBarButton onClick={selectAndEditText(toUnorderedList)}>
+              <FormatListBulletedIcon />
+            </ToolBarButton>
 
-          <ToolBarButton onClick={selectAndEditText(toOrderedList)}>
-            <FormatListNumberedIcon />
-          </ToolBarButton>
+            <ToolBarButton onClick={selectAndEditText(toOrderedList)}>
+              <FormatListNumberedIcon />
+            </ToolBarButton>
 
-          <ToolBarButton onClick={selectAndEditText(toBlockquote)}>
-            <FormatQuoteIcon />
-          </ToolBarButton>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignSelf: "flex-end",
-            justifySelf: "flex-end",
-            gap: 3,
-          }}
-        >
-          <ToolBarButton onClick={handleSave}>
-            <SaveIcon />
-          </ToolBarButton>
-          <ToolBarButton onClick={() => {}}>
-            <DeleteIcon />
-          </ToolBarButton>
-        </Box>
-      </Toolbar>
-    </AppBar>
+            <ToolBarButton onClick={selectAndEditText(toBlockquote)}>
+              <FormatQuoteIcon />
+            </ToolBarButton>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignSelf: "flex-end",
+              justifySelf: "flex-end",
+              gap: 3,
+            }}
+          >
+            <ToolBarButton onClick={handleSave}>
+              <SaveIcon />
+            </ToolBarButton>
+            <ToolBarButton onClick={handleOpenModal}>
+              <DeleteIcon />
+            </ToolBarButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+    </>
   );
 };
 
