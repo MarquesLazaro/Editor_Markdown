@@ -1,5 +1,12 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   CreateDocumentDTO,
   Document,
@@ -11,7 +18,9 @@ interface DocumentsProviderProps {
 }
 
 interface DocumentsContextProps {
+  currentDocument: Document | null;
   documents: Document[];
+  setCurrentDocument: Dispatch<SetStateAction<Document | null>>;
   getDocuments: () => Document[];
   getOneDocument: (id: string) => Document | null;
   createDocument: (data: CreateDocumentDTO) => Document;
@@ -20,7 +29,9 @@ interface DocumentsContextProps {
 }
 
 export const DocumentsContext = createContext<DocumentsContextProps>({
+  currentDocument: null,
   documents: [],
+  setCurrentDocument: () => null,
   getDocuments: () => [],
   getOneDocument: (id: string) => null,
   createDocument: (data: CreateDocumentDTO) => Object(),
@@ -68,6 +79,7 @@ const mockDocuments = [
 ];
 
 const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
+  const [currentDocument, setCurrentDocument] = useState<Document | null>(null);
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
 
   useEffect(() => {
@@ -118,6 +130,8 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
 
   const value = {
     documents,
+    currentDocument,
+    setCurrentDocument,
     getDocuments,
     getOneDocument,
     createDocument,

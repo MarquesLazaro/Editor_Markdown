@@ -13,15 +13,14 @@ export default function ViewDocument() {
   const { id } = useParams<{ id: string }>();
 
   const [content, setContent] = useState<string>("");
-  const [document, setDocument] = useState<Document | null>(null);
-  const { getOneDocument } = useDocumentsContext();
+  const { getOneDocument, setCurrentDocument } = useDocumentsContext();
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     const document = getOneDocument(id);
 
     if (document) {
-      setDocument(document);
+      setCurrentDocument(document);
       setContent(document.content);
     }
   }, [id, getOneDocument]);

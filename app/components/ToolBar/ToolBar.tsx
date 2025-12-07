@@ -1,14 +1,13 @@
 "use client";
 import {
   Toolbar,
-  Button,
   AppBar,
   useTheme,
   IconButton,
-  Typography,
   Box,
-  Menu,
-  MenuItem,
+  Alert,
+  SlideProps,
+  Slide,
 } from "@mui/material";
 
 import {
@@ -20,6 +19,7 @@ import {
   toOrderedList,
   toBlockquote,
 } from "@/app/utils/MarkdownApply";
+import Snackbar from "@mui/material/Snackbar";
 
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
@@ -27,13 +27,16 @@ import CodeIcon from "@mui/icons-material/Code";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+import SaveIcon from "@mui/icons-material/Save";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import { MdTextFields } from "react-icons/md";
 
-import React, { RefObject, Dispatch, SetStateAction, useState } from "react";
+import { RefObject, Dispatch, SetStateAction, useState } from "react";
 import { Folder } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import ToolBarButton from "../ToolBarButton/ToolBarButton";
+import { useDocumentsContext } from "@/app/context/DocumentsContext";
 
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
@@ -41,9 +44,13 @@ interface ToolBarProps {
   setContent: Dispatch<SetStateAction<string>>;
 }
 
+type TransitionProps = Omit<SlideProps, "direction">;
+
 const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
+  const { updateDocument, currentDocument } = useDocumentsContext();
+  const [open, setOpen] = useState<boolean>(false);
 
   const selectAndEditText = (editFn: (text: string) => string) => {
     return () => {
@@ -68,6 +75,17 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
     router.push("/");
   };
 
+  const handleSave = () => {
+    if (currentDocument) {
+      updateDocument(currentDocument.id, { content });
+      setOpen(true);
+    }
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <AppBar
       position="static"
@@ -78,7 +96,28 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
       }}
     >
       <Toolbar>
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          autoHideDuration={5000}
+          open={open}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            variant="filled"
+            sx={{ width: "100%" }}
+          >
+            Documento Salvo
+          </Alert>
+        </Snackbar>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            gap: 1,
+          }}
+        >
           <IconButton color="inherit" edge="start" onClick={toDocumentList}>
             <Folder />
           </IconButton>
@@ -109,6 +148,21 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
 
           <ToolBarButton onClick={selectAndEditText(toBlockquote)}>
             <FormatQuoteIcon />
+          </ToolBarButton>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignSelf: "flex-end",
+            justifySelf: "flex-end",
+            gap: 3,
+          }}
+        >
+          <ToolBarButton onClick={handleSave}>
+            <SaveIcon />
+          </ToolBarButton>
+          <ToolBarButton onClick={() => {}}>
+            <DeleteIcon />
           </ToolBarButton>
         </Box>
       </Toolbar>
