@@ -33,6 +33,7 @@ export default function ViewDocument() {
         display: "flex",
         flexDirection: "column",
         height: "100vh",
+        width: "100vw",
         overflow: "hidden",
       }}
     >

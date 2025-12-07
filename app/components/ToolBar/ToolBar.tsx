@@ -43,6 +43,7 @@ import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
 import Toast from "../Toast/Toast";
+import EditableLabel from "../EditableLabel/EditableLabel";
 
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
@@ -99,6 +100,8 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
     setOpenModal(false);
   };
 
+  if (!currentDocument) return;
+
   return (
     <>
       <DeleteDocumentModal
@@ -113,20 +116,13 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
           color: theme.palette.text.primary,
         }}
       >
-        <Toolbar>
-          <Toast
-            open={openSnackbar}
-            onClose={handleCloseSnackbar}
-            message="Documento Salvo"
-            severity="success"
-          />
-          <Box
-            sx={{
-              display: "flex",
-              width: "100%",
-              gap: 1,
-            }}
-          >
+        <Toolbar
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ display: "flex", gap: 1, flex: 1 }}>
             <IconButton color="inherit" edge="start" onClick={toDocumentList}>
               <Folder />
             </IconButton>
@@ -159,12 +155,20 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
               <FormatQuoteIcon />
             </ToolBarButton>
           </Box>
+
+          <Box sx={{ display: "flex", flex: 1, justifyContent: "center" }}>
+            <EditableLabel
+              label={currentDocument.title}
+              id={currentDocument.id}
+            />
+          </Box>
+
           <Box
             sx={{
               display: "flex",
-              alignSelf: "flex-end",
-              justifySelf: "flex-end",
               gap: 3,
+              flex: 1,
+              justifyContent: "flex-end",
             }}
           >
             <ToolBarButton onClick={handleSave}>
@@ -175,6 +179,13 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
             </ToolBarButton>
           </Box>
         </Toolbar>
+
+        <Toast
+          open={openSnackbar}
+          onClose={handleCloseSnackbar}
+          message="Documento Salvo"
+          severity="success"
+        />
       </AppBar>
     </>
   );

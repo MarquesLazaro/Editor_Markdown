@@ -15,7 +15,7 @@ const EditableLabel = ({ label, id }: EditableLabelProps) => {
   const [editing, setEditing] = useState<boolean>(false);
   const [title, setTitle] = useState<string>(label);
 
-  const handleDoubleClick = () => {
+  const handleClick = () => {
     setEditing(true);
   };
 
@@ -25,12 +25,7 @@ const EditableLabel = ({ label, id }: EditableLabelProps) => {
   };
 
   return (
-    <Box
-      sx={{
-        marginLeft: "1rem",
-        marginBottom: "0.5rem",
-      }}
-    >
+    <Box >
       {editing ? (
         <TextField
           value={title}
@@ -43,12 +38,7 @@ const EditableLabel = ({ label, id }: EditableLabelProps) => {
           autoFocus
         />
       ) : (
-        <Typography
-          sx={{ fontWeight: "bold" }}
-          onDoubleClick={handleDoubleClick}
-        >
-          {title}
-        </Typography>
+        <Typography onClick={handleClick}>{title}</Typography>
       )}
     </Box>
   );
