@@ -6,9 +6,6 @@ import {
   IconButton,
   Box,
   Alert,
-  SlideProps,
-  Slide,
-  Modal,
   Typography,
   Dialog,
   DialogTitle,
@@ -44,6 +41,7 @@ import { Folder } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
+import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
 
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
@@ -54,8 +52,7 @@ interface ToolBarProps {
 const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
-  const { updateDocument, deleteDocument, currentDocument } =
-    useDocumentsContext();
+  const { updateDocument, currentDocument } = useDocumentsContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -101,44 +98,12 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
     setOpenModal(false);
   };
 
-  const handleDeleteDocument = () => {
-    if (currentDocument) {
-      deleteDocument(currentDocument.id);
-      router.push("/");
-    }
-  };
-
   return (
     <>
-      <Dialog
+      <DeleteDocumentModal
         open={openModal}
-        onClose={handleCloseModal}
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle>
-          <Typography variant="h6">Excluir Documento</Typography>
-        </DialogTitle>
-
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Deseja excluir o Documento? Essa é uma operação sem volta.
-          </Typography>
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleCloseModal} color="error">
-            Cancelar
-          </Button>
-          <Button
-            onClick={handleDeleteDocument}
-            variant="contained"
-            color="primary"
-          >
-            Excluir Documento
-          </Button>
-        </DialogActions>
-      </Dialog>
+        handleCloseModal={handleCloseModal}
+      />
       <AppBar
         position="static"
         elevation={0}
