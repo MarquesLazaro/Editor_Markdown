@@ -1,14 +1,15 @@
 "use client";
 
+import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import { RefObject, Dispatch, SetStateAction, useEffect } from "react";
 
 interface EditorProps {
   ref: RefObject<HTMLTextAreaElement | null>;
-  content: string;
-  setContent: Dispatch<SetStateAction<string>>;
 }
 
-const Editor = ({ ref, content, setContent }: EditorProps) => {
+const Editor = ({ ref }: EditorProps) => {
+  const { currentDocument, content, setContent } = useDocumentsContext();
+
   useEffect(() => {
     const textarea = ref.current;
 
@@ -19,6 +20,8 @@ const Editor = ({ ref, content, setContent }: EditorProps) => {
       textarea.setSelectionRange(end, end);
     }
   }, []);
+
+  if (!currentDocument) return null;
 
   return (
     <textarea

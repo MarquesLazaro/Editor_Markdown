@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import { Typography, Link, Divider } from "@mui/material";
 import { type PluggableList } from "unified";
 import { type Element } from "hast";
+import { useDocumentsContext } from "@/app/context/DocumentsContext";
 
 interface MarkdownRendererProps {
   node?: Element | undefined;
@@ -14,9 +15,6 @@ interface MarkdownRendererProps {
   [key: string]: any;
 }
 
-interface PreviewProps {
-  content: string;
-}
 
 const muiRenderers: Components = {
   p: ({ node, ...props }: MarkdownRendererProps) => (
@@ -108,7 +106,10 @@ const muiRenderers: Components = {
   ),
 };
 
-const Preview = ({ content }: PreviewProps) => {
+const Preview = () => {
+  const { content } = useDocumentsContext();
+
+  if (!content) return null;
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm] as PluggableList}

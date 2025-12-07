@@ -8,14 +8,10 @@ import Preview from "../Preview/Preview";
 
 interface DocumentEditorAndPreviewProps {
   ref: RefObject<HTMLTextAreaElement | null>;
-  content: string;
-  setContent: Dispatch<SetStateAction<string>>;
 }
 
 const DocumentEditorAndPreview = ({
   ref,
-  content,
-  setContent,
 }: DocumentEditorAndPreviewProps) => {
   return (
     <Stack
@@ -34,7 +30,7 @@ const DocumentEditorAndPreview = ({
           overflow: "hidden",
         }}
       >
-        <Editor ref={ref} content={content} setContent={setContent} />
+        <Editor ref={ref}/>
       </Box>
 
       <Box
@@ -48,7 +44,7 @@ const DocumentEditorAndPreview = ({
           
         }}
       >
-        <Preview content={content} />
+        <Preview/>
       </Box>
     </Stack>
   );

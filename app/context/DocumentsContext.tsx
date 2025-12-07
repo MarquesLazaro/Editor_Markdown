@@ -19,7 +19,9 @@ interface DocumentsProviderProps {
 
 interface DocumentsContextProps {
   currentDocument: Document | null;
+  content: string;
   documents: Document[];
+  setContent: Dispatch<SetStateAction<string>>;
   setCurrentDocument: Dispatch<SetStateAction<Document | null>>;
   getDocuments: () => Document[];
   getOneDocument: (id: string) => Document | null;
@@ -29,8 +31,10 @@ interface DocumentsContextProps {
 }
 
 export const DocumentsContext = createContext<DocumentsContextProps>({
+  content: "",
   currentDocument: null,
   documents: [],
+  setContent: () => null,
   setCurrentDocument: () => null,
   getDocuments: () => [],
   getOneDocument: (id: string) => null,
@@ -80,6 +84,7 @@ const mockDocuments = [
 
 const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   const [currentDocument, setCurrentDocument] = useState<Document | null>(null);
+  const [content, setContent] = useState<string>("");
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
 
   useEffect(() => {
@@ -129,8 +134,10 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   };
 
   const value = {
+    content,
     documents,
     currentDocument,
+    setContent,
     setCurrentDocument,
     getDocuments,
     getOneDocument,

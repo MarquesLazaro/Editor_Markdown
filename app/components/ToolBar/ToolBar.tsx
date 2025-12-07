@@ -1,18 +1,5 @@
 "use client";
-import {
-  Toolbar,
-  AppBar,
-  useTheme,
-  IconButton,
-  Box,
-  Alert,
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Button,
-  DialogActions,
-} from "@mui/material";
+import { Toolbar, AppBar, useTheme, IconButton, Box } from "@mui/material";
 
 import {
   toHeading,
@@ -23,7 +10,6 @@ import {
   toOrderedList,
   toBlockquote,
 } from "@/app/utils/MarkdownApply";
-import Snackbar from "@mui/material/Snackbar";
 
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
@@ -33,28 +19,28 @@ import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import SaveIcon from "@mui/icons-material/Save";
 import DeleteIcon from "@mui/icons-material/Delete";
+import HomeFilledIcon from "@mui/icons-material/HomeFilled";
 
 import { MdTextFields } from "react-icons/md";
 
 import { RefObject, Dispatch, SetStateAction, useState } from "react";
-import { Folder } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
 import Toast from "../Toast/Toast";
 import EditableLabel from "../EditableLabel/EditableLabel";
+import { Home } from "@mui/icons-material";
 
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
-  content: string;
-  setContent: Dispatch<SetStateAction<string>>;
 }
 
-const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
+const ToolBar = ({ ref }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
-  const { updateDocument, currentDocument } = useDocumentsContext();
+  const { updateDocument, currentDocument, content, setContent } =
+    useDocumentsContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
 
@@ -77,7 +63,7 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
     };
   };
 
-  const toDocumentList = () => {
+  const handleToDocuments = () => {
     router.push("/");
   };
 
@@ -123,8 +109,13 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
           }}
         >
           <Box sx={{ display: "flex", gap: 1, flex: 1 }}>
-            <IconButton color="inherit" edge="start" onClick={toDocumentList}>
-              <Folder />
+            <IconButton
+              color="inherit"
+              edge="start"
+              onClick={handleToDocuments}
+              sx={{ mr: 2 }}
+            >
+              <HomeFilledIcon />
             </IconButton>
 
             <ToolBarButton onClick={selectAndEditText(toHeading)}>
