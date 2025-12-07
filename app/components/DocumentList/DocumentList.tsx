@@ -10,7 +10,13 @@ import {
   useTheme,
   Button,
   Divider,
+  ListItemIcon,
+  IconButton,
+  ListItemSecondaryAction,
 } from "@mui/material";
+
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/navigation";
 
 interface DocumentListProps {
@@ -90,13 +96,27 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
         <Divider />
         <List>
           {documents.map((doc) => (
-            <ListItem key={doc.id} disablePadding>
-              <ListItemButton
-                onClick={() => router.push(`/${doc.id}`)}
-                sx={{
-                  borderRadius: 1,
-                }}
-              >
+            <ListItem
+              key={doc.id}
+              secondaryAction={
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <IconButton
+                    edge="end"
+                    onClick={() => console.log("edit", doc.id)}
+                  >
+                    <EditIcon />
+                  </IconButton>
+
+                  <IconButton
+                    edge="end"
+                    onClick={() => console.log("delete", doc.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              }
+            >
+              <ListItemButton onClick={() => router.push(`/${doc.id}`)}>
                 <ListItemText primary={doc.title} />
               </ListItemButton>
             </ListItem>
