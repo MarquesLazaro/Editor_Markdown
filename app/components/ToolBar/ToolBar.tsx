@@ -42,6 +42,7 @@ import { useRouter } from "next/navigation";
 import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
+import Toast from "../Toast/Toast";
 
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
@@ -113,21 +114,12 @@ const ToolBar = ({ ref, content, setContent }: ToolBarProps) => {
         }}
       >
         <Toolbar>
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            autoHideDuration={5000}
+          <Toast
             open={openSnackbar}
             onClose={handleCloseSnackbar}
-          >
-            <Alert
-              onClose={handleCloseSnackbar}
-              severity="success"
-              variant="filled"
-              sx={{ width: "100%" }}
-            >
-              Documento Salvo
-            </Alert>
-          </Snackbar>
+            message="Documento Salvo"
+            severity="success"
+          />
           <Box
             sx={{
               display: "flex",
