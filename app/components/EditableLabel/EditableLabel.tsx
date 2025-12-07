@@ -1,47 +1,47 @@
 "use client";
 
+import { TextField } from "@mui/material";
 import { useState } from "react";
-import { Box, Typography } from "@mui/material";
-import TextField from "@mui/material/TextField";
-import { useDocumentsContext } from "@/app/context/DocumentsContext";
+import { useDocumentsContext } from "../../context/DocumentsContext";
 
 interface EditableLabelProps {
-  id: string;
   label: string;
+  id: string;
 }
 
-const EditableLabel = ({ label, id }: EditableLabelProps) => {
+export default function EditableLabel({ label, id }: EditableLabelProps) {
   const { updateDocument } = useDocumentsContext();
-  const [editing, setEditing] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(label);
+  const [editing, setEditing] = useState(false);
+  const [title, setTitle] = useState(label);
 
-  const handleClick = () => {
-    setEditing(true);
-  };
-
-  const disableEditing = () => {
+  const finish = () => {
     setEditing(false);
-    updateDocument(id, { title });
+    if (title !== label) updateDocument(id, { title });
   };
 
   return (
-    <Box >
-      {editing ? (
-        <TextField
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          onBlur={disableEditing}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") disableEditing();
-          }}
-          size="small"
-          autoFocus
-        />
-      ) : (
-        <Typography onClick={handleClick}>{title}</Typography>
-      )}
-    </Box>
+    <TextField
+      variant="standard"
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
+      onClick={() => setEditing(true)}
+      onBlur={finish}
+      onKeyDown={(e) => e.key === "Enter" && e.currentTarget.blur()}
+      autoFocus={editing}
+      sx={{
+        width: "auto",
+        "& .MuiInputBase-input": {
+          textAlign: "center",
+          cursor: editing ? "text" : "pointer",
+          border: "none",
+        },
+        "& .MuiInput-underline:before": {
+          borderBottom: editing ? undefined : "none",
+        },
+        "& .MuiInput-underline:after": {
+          borderBottom: editing ? undefined : "none",
+        },
+      }}
+    />
   );
-};
-
-export default EditableLabel;
+}
