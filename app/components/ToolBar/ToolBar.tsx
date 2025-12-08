@@ -92,7 +92,8 @@ const ToolBar = ({ ref }: ToolBarProps) => {
     <>
       <DeleteDocumentModal
         open={openModal}
-        handleCloseModal={handleCloseModal}
+        closeModal={handleCloseModal}
+        documentId={currentDocument.id}
       />
       <AppBar
         position="static"

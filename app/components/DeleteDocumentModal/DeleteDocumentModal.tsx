@@ -11,38 +11,37 @@ import {
 import { useRouter } from "next/navigation";
 
 interface DeleteDocumentModalProps {
+  documentId: string;
   open: boolean;
-  handleCloseModal: () => void;
+  closeModal: () => void;
 }
 
 const DeleteDocumentModal = ({
+  documentId,
   open,
-  handleCloseModal,
+  closeModal,
 }: DeleteDocumentModalProps) => {
-  const { currentDocument, deleteDocument } = useDocumentsContext();
+  const { deleteDocument } = useDocumentsContext();
   const router = useRouter();
 
   const handleDeleteDocument = () => {
-    if (currentDocument) {
-      deleteDocument(currentDocument.id);
-      router.push("/");
-    }
+    deleteDocument(documentId);
+    closeModal();
+    router.push("/");
   };
 
   return (
-    <Dialog open={open} onClose={handleCloseModal} fullWidth maxWidth="sm">
+    <Dialog open={open} onClose={closeModal} fullWidth maxWidth="sm">
       <DialogTitle>
         <Typography variant="h6">Excluir Documento</Typography>
       </DialogTitle>
 
       <DialogContent dividers>
-        <Typography gutterBottom>
-          Deseja excluir o Documento? Essa é uma operação sem volta.
-        </Typography>
+        <Typography gutterBottom>Deseja excluir o Documento?</Typography>
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={handleCloseModal} color="error">
+        <Button onClick={closeModal} color="error">
           Cancelar
         </Button>
         <Button
