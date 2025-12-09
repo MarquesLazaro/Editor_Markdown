@@ -1,5 +1,14 @@
 "use client";
-import { Toolbar, AppBar, useTheme, IconButton, Box } from "@mui/material";
+import {
+  Toolbar,
+  AppBar,
+  useTheme,
+  IconButton,
+  Box,
+  Typography,
+  TextField,
+  Button,
+} from "@mui/material";
 
 import {
   toHeading,
@@ -29,9 +38,6 @@ import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
 import Toast from "../Toast/Toast";
-import EditableLabel from "../EditableLabel/EditableLabel";
-import { Home } from "@mui/icons-material";
-
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
 }
@@ -43,6 +49,8 @@ const ToolBar = ({ ref }: ToolBarProps) => {
     useDocumentsContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [edit, setEdit] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("ghfhgfhgfhfghfghfhfghgfhgfh");
 
   const selectAndEditText = (editFn: (text: string) => string) => {
     return () => {
@@ -149,7 +157,56 @@ const ToolBar = ({ ref }: ToolBarProps) => {
           </Box>
 
           <Box sx={{ display: "flex", flex: 1, justifyContent: "center" }}>
-            <EditableLabel />
+            {!edit ? (
+              <Button onClick={() => setEdit(true)}>
+                <Typography
+                  sx={{
+                    color: theme.palette.text.primary,
+                    p: 0,
+                    fontSize: 20,
+                    maxWidth: "20rem",
+                    overflow: "hidden",
+                    borderRadius: 2,
+                    "&:hover": {
+                      backgroundColor: "rgba(255, 255, 255, 0.3)",
+                      borderRadius: 2,
+                    },
+                  }}
+                >
+                  {title}
+                </Typography>
+              </Button>
+            ) : (
+              <TextField
+                sx={{ p: 0, fontSize: 20, maxWidth: "20rem" }}
+                value={title}
+                variant="standard"
+                autoFocus
+                slotProps={{
+                  input: {
+                    sx: {
+                      color: theme.palette.text.primary,
+                      p: 0,
+                      fontSize: 20,
+                      overflow: "hidden",
+                    },
+                    disableUnderline: true,
+                  },
+                }}
+                onChange={(e) => setTitle(e.target.value)}
+                onBlur={() => {
+                  updateDocument(currentDocument.id, { title });
+                  setEdit(false);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    (e.target as HTMLInputElement).blur();
+                  }
+                }}
+              />
+            )}
           </Box>
 
           <Box
