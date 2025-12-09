@@ -8,7 +8,7 @@ interface EditorProps {
 }
 
 const Editor = ({ ref }: EditorProps) => {
-  const { currentDocument, content, setContent } = useDocumentsContext();
+  const { currentDocumentId, content, setContent } = useDocumentsContext();
 
   useEffect(() => {
     const textarea = ref.current;
@@ -21,7 +21,7 @@ const Editor = ({ ref }: EditorProps) => {
     }
   }, []);
 
-  if (!currentDocument) return null;
+  if (!currentDocumentId) return null;
 
   return (
     <textarea

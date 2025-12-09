@@ -12,7 +12,7 @@ import { Box } from "@mui/material";
 export default function ViewDocument() {
   const { id } = useParams<{ id: string }>();
 
-  const { getOneDocument, setCurrentDocument, setContent } =
+  const { getOneDocument, setCurrentDocumentId, setContent } =
     useDocumentsContext();
   const ref = useRef<HTMLTextAreaElement | null>(null);
 
@@ -20,7 +20,7 @@ export default function ViewDocument() {
     const document = getOneDocument(id);
 
     if (document) {
-      setCurrentDocument(document);
+      setCurrentDocumentId(document.id);
       setContent(document.content);
     }
   }, []);

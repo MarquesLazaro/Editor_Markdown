@@ -18,11 +18,12 @@ interface DocumentsProviderProps {
 }
 
 interface DocumentsContextProps {
-  currentDocument: Document | null;
+  currentDocumentId: string;
   content: string;
-  documents: Document[];
+  autoSave: boolean;
+  setAutoSave: Dispatch<SetStateAction<boolean>>;
   setContent: Dispatch<SetStateAction<string>>;
-  setCurrentDocument: Dispatch<SetStateAction<Document | null>>;
+  setCurrentDocumentId: Dispatch<SetStateAction<string>>;
   getDocuments: () => Document[];
   getOneDocument: (id: string) => Document | null;
   createDocument: (data: CreateDocumentDTO) => Document;
@@ -32,10 +33,11 @@ interface DocumentsContextProps {
 
 export const DocumentsContext = createContext<DocumentsContextProps>({
   content: "",
-  currentDocument: null,
-  documents: [],
+  currentDocumentId: "",
+  autoSave: false,
+  setAutoSave: () => null,
   setContent: () => null,
-  setCurrentDocument: () => null,
+  setCurrentDocumentId: () => null,
   getDocuments: () => [],
   getOneDocument: (id: string) => null,
   createDocument: (data: CreateDocumentDTO) => Object(),
@@ -83,7 +85,8 @@ const mockDocuments = [
 ];
 
 const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
-  const [currentDocument, setCurrentDocument] = useState<Document | null>(null);
+  const [currentDocumentId, setCurrentDocumentId] = useState<string>("");
+  const [autoSave, setAutoSave] = useState<boolean>(true);
   const [content, setContent] = useState<string>("");
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
 
@@ -98,6 +101,16 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   useEffect(() => {
     localStorage.setItem("documents", JSON.stringify(documents));
   }, [documents]);
+
+  useEffect(() => {
+    if (!autoSave) return;
+
+    const timer = setTimeout(() => {
+      updateDocument(currentDocumentId, { content });
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [content, autoSave]);
 
   const getDocuments = () => {
     return documents;
@@ -135,10 +148,11 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
 
   const value = {
     content,
-    documents,
-    currentDocument,
+    currentDocumentId,
+    autoSave,
+    setAutoSave,
     setContent,
-    setCurrentDocument,
+    setCurrentDocumentId,
     getDocuments,
     getOneDocument,
     createDocument,

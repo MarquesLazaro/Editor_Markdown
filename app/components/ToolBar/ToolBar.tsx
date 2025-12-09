@@ -45,7 +45,7 @@ interface ToolBarProps {
 const ToolBar = ({ ref }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
-  const { updateDocument, currentDocument, content, setContent } =
+  const { updateDocument, currentDocumentId, content, setContent } =
     useDocumentsContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -76,10 +76,8 @@ const ToolBar = ({ ref }: ToolBarProps) => {
   };
 
   const handleSave = () => {
-    if (currentDocument) {
-      updateDocument(currentDocument.id, { content });
-      setOpenSnackbar(true);
-    }
+    updateDocument(currentDocumentId, { content });
+    setOpenSnackbar(true);
   };
 
   const handleCloseSnackbar = () => {
@@ -94,14 +92,14 @@ const ToolBar = ({ ref }: ToolBarProps) => {
     setOpenModal(false);
   };
 
-  if (!currentDocument) return;
+  if (!currentDocumentId) return;
 
   return (
     <>
       <DeleteDocumentModal
         open={openModal}
         closeModal={handleCloseModal}
-        documentId={currentDocument.id}
+        documentId={currentDocumentId}
       />
       <AppBar
         position="static"
@@ -195,7 +193,7 @@ const ToolBar = ({ ref }: ToolBarProps) => {
                 }}
                 onChange={(e) => setTitle(e.target.value)}
                 onBlur={() => {
-                  updateDocument(currentDocument.id, { title });
+                  updateDocument(currentDocumentId, { title });
                   setEdit(false);
                 }}
                 onKeyDown={(e) => {
