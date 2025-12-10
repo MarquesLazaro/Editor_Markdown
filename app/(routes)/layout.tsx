@@ -4,7 +4,6 @@ import ThemeProvider from "../context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Editor de Markdown",
-  description: "Editor de Markdown",
 };
 
 export default function RootLayout({
@@ -14,6 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" />
+      </head>
       <body>
         <ThemeProvider>
           <ClientProviders>{children}</ClientProviders>

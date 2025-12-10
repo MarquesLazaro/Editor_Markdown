@@ -17,10 +17,8 @@ export const toHeading = (text: string) => {
 
       return `${newHashes} ${content}`;
     }
-  }
-
-  else{
-     return `# ${text}`
+  } else {
+    return `# ${text}`;
   }
 };
 
