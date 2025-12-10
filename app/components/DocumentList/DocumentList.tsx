@@ -13,6 +13,8 @@ import { useRouter } from "next/navigation";
 import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
 import { useState } from "react";
 import DocumentListItem from "../DocumentListItem/DocumentListItem";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import AddIcon from "@mui/icons-material/Add";
 
 interface DocumentListProps {
   documents: Document[];
@@ -35,8 +37,10 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
   };
 
   const handleOpenModal = (id: string) => {
-    setOpenModal(true);
-    setDocumentId(id);
+    return () => {
+      setOpenModal(true);
+      setDocumentId(id);
+    };
   };
 
   const handleCloseModal = () => {
@@ -46,22 +50,22 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
   return (
     <Box
       sx={{
-        height: "100vh",
-        width: "100vw",
+        minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        flexDirection: "column",
         backgroundColor: theme.palette.background.paper,
+        px: 2,
       }}
     >
       <Box
         sx={{
-          width: "70%",
-          height: "60%",
-          maxHeight: 400,
-          borderRadius: theme.shape.borderRadius,
+          width: "100%",
+          maxWidth: "md",
+          minHeight: 400,
+          overflow: "hidden",
           p: 3,
+          borderRadius: theme.shape.borderRadius,
           backgroundColor: theme.palette.background.default,
           boxShadow: theme.shadows[2],
         }}
@@ -71,30 +75,25 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            mb: 2,
           }}
         >
           <Typography
             variant="h5"
             sx={{
-              ml: 2,
               color: theme.palette.text.primary,
-              fontSize: "bold",
+              fontWeight: "bold",
             }}
           >
             Seus Documentos
           </Typography>
-          <Button
-            onClick={handleCreateDocument}
-            sx={{
-              backgroundColor: theme.palette.primary.main,
-              margin: "1rem",
-              color: "white",
-              width: "10rem",
-              borderRadius: theme.shape.borderRadius,
 
-              "&:hover": {
-                backgroundColor: theme.palette.primary.light,
-              },
+          <Button
+            variant="contained"
+            onClick={handleCreateDocument}
+            endIcon={<AddIcon />}
+            sx={{
+              borderRadius: theme.shape.borderRadius,
             }}
           >
             Novo Documento
@@ -102,16 +101,43 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
         </Box>
 
         <Divider />
-        <List>
-          {documents.map((doc) => (
-            <DocumentListItem
-              document={doc}
-              onOpen={() => handleOpenModal(doc.id)}
-              key={doc.id}
-            />
-          ))}
+
+        <List sx={{ mt: 1, maxHeight: 350, overflowY: "auto" }}>
+          {documents.length > 0 ? (
+            documents.map((doc) => (
+              <DocumentListItem
+                key={doc.id}
+                document={doc}
+                onOpen={handleOpenModal(doc.id)}
+              />
+            ))
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                mt: 5,
+                justifySelf: "center",
+                alignSelf: "center",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+              }}
+            >
+              <InsertDriveFileIcon
+                sx={{
+                  fontSize: "8rem",
+                  color: theme.palette.text.secondary,
+                }}
+              />
+
+              <Typography sx={{ mt: 2 }}>
+                Nenhum Documento Adicionado.
+              </Typography>
+            </Box>
+          )}
         </List>
       </Box>
+
       <DeleteDocumentModal
         open={openModal}
         closeModal={handleCloseModal}

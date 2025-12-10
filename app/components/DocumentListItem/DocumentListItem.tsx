@@ -12,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Document } from "@/app/types/Document";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 
 interface DocumentListItemProps {
@@ -26,10 +26,23 @@ const DocumentListItem = ({ document, onOpen }: DocumentListItemProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const { updateDocument } = useDocumentsContext();
 
+  const handleViewDocument = () => router.push(`/${document.id}`);
+  const handleOnBlur = () => {
+    updateDocument(document.id, { title });
+    setEdit(false);
+  };
+  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      e.stopPropagation();
+      (e.target as HTMLInputElement).blur();
+    }
+  };
+
   return (
     <ListItem key={document.id} disablePadding>
       <ListItemButton
-        onClick={() => router.push(`/${document.id}`)}
+        onClick={handleViewDocument}
         sx={{
           display: "flex",
           justifyContent: "space-between",
@@ -49,17 +62,8 @@ const DocumentListItem = ({ document, onOpen }: DocumentListItemProps) => {
             value={title}
             onChange={(e) => setTittle(e.target.value)}
             autoFocus
-            onBlur={() => {
-              updateDocument(document.id, { title });
-              setEdit(false);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                e.stopPropagation();
-                (e.target as HTMLInputElement).blur();
-              }
-            }}
+            onBlur={handleOnBlur}
+            onKeyDown={handleOnKeyDown}
           />
         )}
 
