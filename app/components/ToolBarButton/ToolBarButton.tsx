@@ -14,9 +14,9 @@ const ToolBarButton = ({
       edge="start"
       sx={{
         borderRadius: 2,
-        color: theme.palette.primary.contrastText,
+        color: theme.palette.primary.contrastText, 
         "&:hover": {
-          backgroundColor: "rgba(255, 255, 255, 0.3)",
+          backgroundColor: theme.palette.primary.light, 
           borderRadius: 2,
         },
       }}

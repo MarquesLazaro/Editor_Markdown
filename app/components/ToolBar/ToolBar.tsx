@@ -30,10 +30,11 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HomeFilledIcon from "@mui/icons-material/HomeFilled";
+import NightsStayIcon from "@mui/icons-material/NightsStay";
 
 import { MdTextFields } from "react-icons/md";
 
-import { RefObject, Dispatch, SetStateAction, useState } from "react";
+import { RefObject, useState } from "react";
 import { useRouter } from "next/navigation";
 import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
@@ -117,6 +118,7 @@ const ToolBar = ({ ref, title }: ToolBarProps) => {
           sx={{
             display: "flex",
             alignItems: "center",
+            
           }}
         >
           <Box sx={{ display: "flex", gap: 1, flex: 1 }}>
@@ -192,7 +194,7 @@ const ToolBar = ({ ref, title }: ToolBarProps) => {
             }}
           >
             <ToolBarButton onClick={handleChangeTheme}>
-              <WbSunnyIcon />
+              {themeValue === "light" ? <NightsStayIcon /> : <WbSunnyIcon />}
             </ToolBarButton>
             <ToolBarButton onClick={handleOpenModal}>
               <DeleteIcon />

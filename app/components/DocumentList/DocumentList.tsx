@@ -7,6 +7,7 @@ import {
   useTheme,
   Button,
   Divider,
+  AppBar,
 } from "@mui/material";
 
 import { useRouter } from "next/navigation";
@@ -48,102 +49,105 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: theme.palette.background.paper,
-        px: 2,
-      }}
-    >
+    <>
+      
       <Box
         sx={{
-          width: "100%",
-          maxWidth: "md",
-          height: 450,
-          overflow: "hidden",
-          p: 3,
-          borderRadius: theme.shape.borderRadius,
-          backgroundColor: theme.palette.background.default,
-          boxShadow: theme.shadows[2],
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: theme.palette.background.paper,
+          px: 2,
         }}
       >
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            mb: 2,
+            width: "100%",
+            maxWidth: "md",
+            height: 450,
+            overflow: "hidden",
+            p: 3,
+            borderRadius: theme.shape.borderRadius,
+            backgroundColor: theme.palette.background.default,
+            boxShadow: theme.shadows[2],
           }}
         >
-          <Typography
-            variant="h5"
+          <Box
             sx={{
-              color: theme.palette.text.primary,
-              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              mb: 2,
             }}
           >
-            Seus Documentos
-          </Typography>
-
-          <Button
-            variant="contained"
-            onClick={handleCreateDocument}
-            endIcon={<AddIcon />}
-            sx={{
-              borderRadius: theme.shape.borderRadius,
-            }}
-          >
-            Novo Documento
-          </Button>
-        </Box>
-
-        <Divider />
-
-        <List sx={{ mt: 1, maxHeight: 350, overflowY: "auto" }}>
-          {documents.length > 0 ? (
-            documents.map((doc) => (
-              <DocumentListItem
-                key={doc.id}
-                document={doc}
-                onOpen={handleOpenModal(doc.id)}
-              />
-            ))
-          ) : (
-            <Box
+            <Typography
+              variant="h5"
               sx={{
-                display: "flex",
-                mt: 5,
-                justifySelf: "center",
-                alignSelf: "center",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
+                color: theme.palette.text.primary,
+                fontWeight: "bold",
               }}
             >
-              <InsertDriveFileIcon
+              Seus Documentos
+            </Typography>
+
+            <Button
+              variant="contained"
+              onClick={handleCreateDocument}
+              endIcon={<AddIcon />}
+              sx={{
+                borderRadius: theme.shape.borderRadius,
+              }}
+            >
+              Novo Documento
+            </Button>
+          </Box>
+
+          <Divider />
+
+          <List sx={{ mt: 1, maxHeight: 350, overflowY: "auto" }}>
+            {documents.length > 0 ? (
+              documents.map((doc) => (
+                <DocumentListItem
+                  key={doc.id}
+                  document={doc}
+                  onOpen={handleOpenModal(doc.id)}
+                />
+              ))
+            ) : (
+              <Box
                 sx={{
-                  fontSize: "8rem",
-                  color: theme.palette.text.secondary,
+                  display: "flex",
+                  mt: 5,
+                  justifySelf: "center",
+                  alignSelf: "center",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
                 }}
-              />
+              >
+                <InsertDriveFileIcon
+                  sx={{
+                    fontSize: "8rem",
+                    color: theme.palette.text.secondary,
+                  }}
+                />
 
-              <Typography sx={{ mt: 2 }}>
-                Nenhum Documento Adicionado.
-              </Typography>
-            </Box>
-          )}
-        </List>
+                <Typography sx={{ mt: 2 }}>
+                  Nenhum Documento Adicionado.
+                </Typography>
+              </Box>
+            )}
+          </List>
+        </Box>
+
+        <DeleteDocumentModal
+          open={openModal}
+          closeModal={handleCloseModal}
+          documentId={documentId}
+        />
       </Box>
-
-      <DeleteDocumentModal
-        open={openModal}
-        closeModal={handleCloseModal}
-        documentId={documentId}
-      />
-    </Box>
+    </>
   );
 };
 
