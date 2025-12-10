@@ -62,7 +62,7 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
         sx={{
           width: "100%",
           maxWidth: "md",
-          minHeight: 400,
+          height: 450,
           overflow: "hidden",
           p: 3,
           borderRadius: theme.shape.borderRadius,
