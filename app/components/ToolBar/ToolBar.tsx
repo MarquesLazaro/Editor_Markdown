@@ -27,7 +27,7 @@ import CodeIcon from "@mui/icons-material/Code";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
-import SaveIcon from "@mui/icons-material/Save";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HomeFilledIcon from "@mui/icons-material/HomeFilled";
 
@@ -41,23 +41,18 @@ import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
 import Toast from "../Toast/Toast";
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
+  title: string;
 }
 
-const ToolBar = ({ ref }: ToolBarProps) => {
+const ToolBar = ({ ref, title }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
-  const {
-    updateDocument,
-    currentDocumentId,
-    content,
-    setContent,
-    autoSave,
-    setAutoSave,
-  } = useDocumentsContext();
+  const { updateDocument, currentDocumentId, content, setContent } =
+    useDocumentsContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [edit, setEdit] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>("ghfhgfhgfhfghfghfhfghgfhgfh");
+  const [editTitle, setEditTitle] = useState<boolean>(false);
+  const [newTitle, setNewTitle] = useState<string>(title);
 
   const selectAndEditText = (editFn: (text: string) => string) => {
     return () => {
@@ -114,6 +109,7 @@ const ToolBar = ({ ref }: ToolBarProps) => {
         sx={{
           backgroundColor: theme.palette.primary.main,
           color: theme.palette.text.primary,
+          borderRadius: 0,
         }}
       >
         <Toolbar
@@ -124,10 +120,9 @@ const ToolBar = ({ ref }: ToolBarProps) => {
         >
           <Box sx={{ display: "flex", gap: 1, flex: 1 }}>
             <IconButton
-              color="inherit"
               edge="start"
               onClick={handleToDocuments}
-              sx={{ mr: 2 }}
+              sx={{ mr: 2, color: theme.palette.primary.contrastText }}
             >
               <HomeFilledIcon />
             </IconButton>
@@ -162,56 +157,29 @@ const ToolBar = ({ ref }: ToolBarProps) => {
           </Box>
 
           <Box sx={{ display: "flex", flex: 1, justifyContent: "center" }}>
-            {!edit ? (
-              <Button onClick={() => setEdit(true)}>
-                <Typography
-                  sx={{
-                    color: theme.palette.text.primary,
-                    p: 0,
-                    fontSize: 20,
-                    maxWidth: "20rem",
-                    overflow: "hidden",
-                    borderRadius: 2,
-                    "&:hover": {
-                      backgroundColor: "rgba(255, 255, 255, 0.3)",
-                      borderRadius: 2,
-                    },
-                  }}
-                >
-                  {title}
-                </Typography>
-              </Button>
-            ) : (
-              <TextField
-                sx={{ p: 0, fontSize: 20, maxWidth: "20rem" }}
-                value={title}
-                variant="standard"
-                autoFocus
-                slotProps={{
-                  input: {
-                    sx: {
-                      color: theme.palette.text.primary,
-                      p: 0,
-                      fontSize: 20,
-                      overflow: "hidden",
-                    },
-                    disableUnderline: true,
+            <TextField
+              variant="standard"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              onBlur={() =>
+                updateDocument(currentDocumentId, { title: newTitle })
+              }
+              slotProps={{
+                input: {
+                  disableUnderline: true,
+                },
+              }}
+              sx={{
+                "& .MuiInputBase-input": {
+                  fontSize: "1.3rem",
+                  color: theme.palette.primary.contrastText,
+                  "&:hover": {
+                    cursor: "pointer",
                   },
-                }}
-                onChange={(e) => setTitle(e.target.value)}
-                onBlur={() => {
-                  updateDocument(currentDocumentId, { title });
-                  setEdit(false);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    (e.target as HTMLInputElement).blur();
-                  }
-                }}
-              />
-            )}
+                  textAlign: "center",
+                },
+              }}
+            />
           </Box>
 
           <Box
@@ -222,12 +190,8 @@ const ToolBar = ({ ref }: ToolBarProps) => {
               justifyContent: "flex-end",
             }}
           >
-            <Switch
-              checked={autoSave}
-              onChange={() => setAutoSave(!autoSave)}
-            />
             <ToolBarButton onClick={handleSave}>
-              <SaveIcon />
+              <WbSunnyIcon />
             </ToolBarButton>
             <ToolBarButton onClick={handleOpenModal}>
               <DeleteIcon />

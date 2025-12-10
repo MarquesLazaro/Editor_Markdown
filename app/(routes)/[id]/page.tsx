@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
-
 import ToolBar from "@/app/components/ToolBar/ToolBar";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
-import DocumentEditorAndPreview from "@/app/components/DocumentEditorAndPreview/DocumentEditorAndPreview";
-import { Document } from "@/app/types/Document";
+import DocumentEditorAndPreview from "@/app/components/EditorAndPreview/EditorAndPreview";
 import { Box } from "@mui/material";
 
 export default function ViewDocument() {
@@ -15,15 +13,16 @@ export default function ViewDocument() {
   const { getOneDocument, setCurrentDocumentId, setContent } =
     useDocumentsContext();
   const ref = useRef<HTMLTextAreaElement | null>(null);
+  const document = getOneDocument(id);
 
   useEffect(() => {
-    const document = getOneDocument(id);
-
     if (document) {
       setCurrentDocumentId(document.id);
       setContent(document.content);
     }
   }, []);
+
+  if (!document) return null;
 
   return (
     <Box
@@ -35,7 +34,7 @@ export default function ViewDocument() {
         overflow: "hidden",
       }}
     >
-      <ToolBar ref={ref} />
+      <ToolBar ref={ref} title={document.title} />
       <DocumentEditorAndPreview ref={ref} />
     </Box>
   );

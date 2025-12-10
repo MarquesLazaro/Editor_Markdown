@@ -21,8 +21,6 @@ interface DocumentsProviderProps {
 interface DocumentsContextProps {
   currentDocumentId: string;
   content: string;
-  autoSave: boolean;
-  setAutoSave: Dispatch<SetStateAction<boolean>>;
   setContent: Dispatch<SetStateAction<string>>;
   setCurrentDocumentId: Dispatch<SetStateAction<string>>;
   getDocuments: () => Document[];
@@ -35,8 +33,6 @@ interface DocumentsContextProps {
 export const DocumentsContext = createContext<DocumentsContextProps>({
   content: "",
   currentDocumentId: "",
-  autoSave: false,
-  setAutoSave: () => null,
   setContent: () => null,
   setCurrentDocumentId: () => null,
   getDocuments: () => [],
@@ -48,7 +44,6 @@ export const DocumentsContext = createContext<DocumentsContextProps>({
 
 const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   const [currentDocumentId, setCurrentDocumentId] = useState<string>("");
-  const [autoSave, setAutoSave] = useState<boolean>(false);
   const [content, setContent] = useState<string>("");
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
 
@@ -65,14 +60,12 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   }, [documents]);
 
   useEffect(() => {
-    if (!autoSave) return;
-
     const timer = setTimeout(() => {
       updateDocument(currentDocumentId, { content });
     }, 500);
 
     return () => clearTimeout(timer);
-  }, [content, autoSave]);
+  }, [content]);
 
   const getDocuments = () => {
     return documents;
@@ -112,8 +105,6 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   const value = {
     content,
     currentDocumentId,
-    autoSave,
-    setAutoSave,
     setContent,
     setCurrentDocumentId,
     getDocuments,

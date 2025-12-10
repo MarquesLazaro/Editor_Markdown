@@ -3,16 +3,14 @@
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Editor from "../Editor/Editor";
-import { RefObject, Dispatch, SetStateAction } from "react";
+import { RefObject } from "react";
 import Preview from "../Preview/Preview";
 
-interface DocumentEditorAndPreviewProps {
+interface EditorAndPreviewProps {
   ref: RefObject<HTMLTextAreaElement | null>;
 }
 
-const DocumentEditorAndPreview = ({
-  ref,
-}: DocumentEditorAndPreviewProps) => {
+const EditorAndPreview = ({ ref }: EditorAndPreviewProps) => {
   return (
     <Stack
       direction="row"
@@ -29,7 +27,7 @@ const DocumentEditorAndPreview = ({
           overflow: "hidden",
         }}
       >
-        <Editor ref={ref}/>
+        <Editor ref={ref} />
       </Box>
 
       <Box
@@ -40,13 +38,12 @@ const DocumentEditorAndPreview = ({
           fontSize: "1rem",
           fontFamily: "monospace",
           padding: "1rem",
-          
         }}
       >
-        <Preview/>
+        <Preview />
       </Box>
     </Stack>
   );
 };
 
-export default DocumentEditorAndPreview;
+export default EditorAndPreview;
