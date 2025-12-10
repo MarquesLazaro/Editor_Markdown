@@ -6,6 +6,7 @@ import {
   createContext,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
 import { Theme } from "../types/Theme";
 
@@ -25,6 +26,18 @@ export const ThemeContext = createContext<ThemeContextProps>({
 
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>("dark");
+
+  useEffect(() => {
+    const local = localStorage.getItem("theme") as Theme;
+
+    if (local) {
+      setTheme(local);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme, setTheme]);
 
   const value = { theme, setTheme };
 

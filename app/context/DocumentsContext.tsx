@@ -62,6 +62,7 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       updateDocument(currentDocumentId, { content });
+      console.log("oiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
     }, 500);
 
     return () => clearTimeout(timer);
@@ -95,7 +96,7 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   const updateDocument = (id: string, data: UpdateDocumentDTO) => {
     setDocuments((prev) =>
       prev.map((doc) => {
-        if (doc.id == id)
+        if (doc.id === id)
           return { ...doc, ...data, updatedAt: new Date().toISOString() };
         return doc;
       })
