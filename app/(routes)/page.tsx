@@ -8,19 +8,7 @@ import { Document } from "../types/Document";
 
 export default function Home() {
   const { getDocuments } = useDocumentsContext();
-  const [documents, setDocuments] = useState<Document[] | null>(null);
+  const documents = getDocuments();
 
-  useEffect(() => {
-    const docs = getDocuments();
-
-    setDocuments(docs);
-  }, []);
-
-  if (!documents) return null;
-
-  return (
-    <>
-      <DocumentList documents={documents} />
-    </>
-  );
+  return <DocumentList documents={documents} />;
 }

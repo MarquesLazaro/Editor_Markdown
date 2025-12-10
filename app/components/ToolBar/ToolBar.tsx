@@ -8,6 +8,7 @@ import {
   Typography,
   TextField,
   Button,
+  Switch,
 } from "@mui/material";
 
 import {
@@ -45,8 +46,14 @@ interface ToolBarProps {
 const ToolBar = ({ ref }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
-  const { updateDocument, currentDocumentId, content, setContent } =
-    useDocumentsContext();
+  const {
+    updateDocument,
+    currentDocumentId,
+    content,
+    setContent,
+    autoSave,
+    setAutoSave,
+  } = useDocumentsContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [edit, setEdit] = useState<boolean>(false);
@@ -215,6 +222,10 @@ const ToolBar = ({ ref }: ToolBarProps) => {
               justifyContent: "flex-end",
             }}
           >
+            <Switch
+              checked={autoSave}
+              onChange={() => setAutoSave(!autoSave)}
+            />
             <ToolBarButton onClick={handleSave}>
               <SaveIcon />
             </ToolBarButton>

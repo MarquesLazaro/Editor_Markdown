@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import theme from "../config/theme";
+import { theme } from "../config/theme";
 import DocumentsProvider from "../context/DocumentsContext";
 
 type ClientProvidersProps = {
@@ -11,7 +11,7 @@ type ClientProvidersProps = {
 
 export default function ClientProviders({ children }: ClientProvidersProps) {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme("light")}>
       <CssBaseline />
       <DocumentsProvider>{children}</DocumentsProvider>
     </ThemeProvider>

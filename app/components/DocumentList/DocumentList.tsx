@@ -21,7 +21,7 @@ interface DocumentListProps {
 const DocumentsList = ({ documents }: DocumentListProps) => {
   const router = useRouter();
   const theme = useTheme();
-  const { createDocument, deleteDocument } = useDocumentsContext();
+  const { createDocument } = useDocumentsContext();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [documentId, setDocumentId] = useState<string>("");
 
@@ -57,11 +57,13 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
     >
       <Box
         sx={{
-          width: "100%",
-          maxWidth: "70%",
+          width: "70%",
+          height: "60%",
+          maxHeight: 400,
           borderRadius: theme.shape.borderRadius,
           p: 3,
           backgroundColor: theme.palette.background.default,
+          boxShadow: theme.shadows[2],
         }}
       >
         <Box
@@ -88,7 +90,7 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
               margin: "1rem",
               color: "white",
               width: "10rem",
-              borderRadius: "0.5rem",
+              borderRadius: theme.shape.borderRadius,
 
               "&:hover": {
                 backgroundColor: theme.palette.primary.light,

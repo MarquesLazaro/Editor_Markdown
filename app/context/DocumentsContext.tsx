@@ -86,7 +86,7 @@ const mockDocuments = [
 
 const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   const [currentDocumentId, setCurrentDocumentId] = useState<string>("");
-  const [autoSave, setAutoSave] = useState<boolean>(true);
+  const [autoSave, setAutoSave] = useState<boolean>(false);
   const [content, setContent] = useState<string>("");
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
 
@@ -140,7 +140,8 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   const updateDocument = (id: string, data: UpdateDocumentDTO) => {
     setDocuments((prev) =>
       prev.map((doc) => {
-        if (doc.id == id) return { ...doc, ...data };
+        if (doc.id == id)
+          return { ...doc, ...data, updatedAt: new Date().toISOString() };
         return doc;
       })
     );

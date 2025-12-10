@@ -33,7 +33,9 @@ const DeleteDocumentModal = ({
   return (
     <Dialog open={open} onClose={closeModal} fullWidth maxWidth="sm">
       <DialogTitle>
-        <Typography variant="h6">Excluir Documento</Typography>
+        <Typography variant="h6" component="span">
+          Excluir Documento
+        </Typography>
       </DialogTitle>
 
       <DialogContent dividers>
