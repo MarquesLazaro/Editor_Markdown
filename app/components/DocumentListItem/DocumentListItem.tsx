@@ -26,7 +26,7 @@ const DocumentListItem = ({ document, onOpen }: DocumentListItemProps) => {
   const [edit, setEdit] = useState<boolean>(false);
   const { updateDocument } = useDocumentsContext();
 
-  const handleViewDocument = () => router.push(`/${document.id}`);
+  const handleViewDocument = () => router.push(`/document/${document.id}`);
   const handleOnBlur = () => {
     updateDocument(document.id, { title });
     setEdit(false);
