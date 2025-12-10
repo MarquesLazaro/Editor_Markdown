@@ -66,13 +66,20 @@ const ToolBar = ({ ref, title }: ToolBarProps) => {
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
 
-      const selectedText = content.slice(start, end);
+      console.log(`"${content.slice(start, end).split("\n")}"`);
+      const selectedText = content.slice(start, end).trim();
       const editedText = editFn(selectedText);
 
       const newContent =
         content.slice(0, start) + editedText + content.slice(end);
 
       setContent(newContent);
+
+      textarea.value = newContent;
+      const newEnd = start + editedText.length;
+
+      textarea.setSelectionRange(start, newEnd);
+      textarea.focus();
     };
   };
 
@@ -118,7 +125,6 @@ const ToolBar = ({ ref, title }: ToolBarProps) => {
           sx={{
             display: "flex",
             alignItems: "center",
-            
           }}
         >
           <Box sx={{ display: "flex", gap: 1, flex: 1 }}>

@@ -20,7 +20,7 @@ export default function ViewDocument() {
       setCurrentDocumentId(document.id);
       setContent(document.content);
     }
-  }, []);
+  }, [document]);
 
   if (!document) return null;
 
