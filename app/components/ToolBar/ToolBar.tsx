@@ -34,7 +34,7 @@ import NightsStayIcon from "@mui/icons-material/NightsStay";
 
 import { MdTextFields } from "react-icons/md";
 
-import { RefObject, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
@@ -43,19 +43,30 @@ import Toast from "../Toast/Toast";
 import { useThemeContext } from "@/app/context/ThemeContext";
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
-  title: string;
 }
 
-const ToolBar = ({ ref, title }: ToolBarProps) => {
+const ToolBar = ({ ref }: ToolBarProps) => {
   const theme = useTheme();
   const router = useRouter();
-  const { updateDocument, currentDocumentId, content, setContent } =
-    useDocumentsContext();
+  const {
+    updateDocument,
+    currentDocumentId,
+    content,
+    setContent,
+    getOneDocument,
+  } = useDocumentsContext();
 
   const { theme: themeValue, setTheme } = useThemeContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [newTitle, setNewTitle] = useState<string>(title);
+  const [newTitle, setNewTitle] = useState<string>("");
+  const document = getOneDocument(currentDocumentId);
+
+  useEffect(() => {
+    if (document) {
+      setNewTitle(document.title);
+    }
+  }, [document]);
 
   const selectAndEditText = (editFn: (text: string) => string) => {
     return () => {
@@ -66,8 +77,7 @@ const ToolBar = ({ ref, title }: ToolBarProps) => {
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
 
-      console.log(`"${content.slice(start, end).split("\n")}"`);
-      const selectedText = content.slice(start, end).trim();
+      const selectedText = content.slice(start, end);
       const editedText = editFn(selectedText);
 
       const newContent =
