@@ -1,9 +1,10 @@
 import { createTheme } from "@mui/material/styles";
+import { Theme } from "../types/Theme";
 
 const primaryColor = "#1976D2";
 const secondaryColor = "#DC004E";
 
-export const theme = (mode: "light" | "dark") =>
+export const getTheme = (mode: Theme) =>
   createTheme({
     palette: {
       mode,
@@ -55,10 +56,6 @@ export const theme = (mode: "light" | "dark") =>
         textTransform: "none",
         fontWeight: 500,
       },
-    },
-
-    shape: {
-      borderRadius: 3,
     },
 
     components: {

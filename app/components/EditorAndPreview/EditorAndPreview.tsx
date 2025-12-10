@@ -34,6 +34,7 @@ const EditorAndPreview = ({ ref }: EditorAndPreviewProps) => {
         sx={{
           width: "50%",
           height: "100%",
+          color: "#000",
           backgroundColor: "#F5F5F5",
           fontSize: "1rem",
           fontFamily: "monospace",

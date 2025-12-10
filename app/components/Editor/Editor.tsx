@@ -1,6 +1,7 @@
 "use client";
 
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
+import { useTheme } from "@mui/material";
 import { RefObject, Dispatch, SetStateAction, useEffect } from "react";
 
 interface EditorProps {
@@ -9,6 +10,7 @@ interface EditorProps {
 
 const Editor = ({ ref }: EditorProps) => {
   const { currentDocumentId, content, setContent } = useDocumentsContext();
+  const theme = useTheme();
 
   useEffect(() => {
     const textarea = ref.current;
@@ -39,6 +41,8 @@ const Editor = ({ ref }: EditorProps) => {
         fontSize: "1rem",
         padding: "1rem",
         lineHeight: 1,
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary,
       }}
     />
   );

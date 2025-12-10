@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ClientProviders from "../components/ClientProviders";
+import ThemeProvider from "../context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Editor de Markdown",
@@ -14,7 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ClientProviders>{children}</ClientProviders>
+        <ThemeProvider>
+          <ClientProviders>{children}</ClientProviders>
+        </ThemeProvider>
       </body>
     </html>
   );

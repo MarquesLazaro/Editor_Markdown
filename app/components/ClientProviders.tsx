@@ -2,16 +2,19 @@
 
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { theme } from "../config/theme";
+import { getTheme } from "../config/theme";
 import DocumentsProvider from "../context/DocumentsContext";
+import { useThemeContext } from "../context/ThemeContext";
 
 type ClientProvidersProps = {
   children: React.ReactNode;
 };
 
 export default function ClientProviders({ children }: ClientProvidersProps) {
+  const { theme } = useThemeContext();
+
   return (
-    <ThemeProvider theme={theme("light")}>
+    <ThemeProvider theme={getTheme(theme)}>
       <CssBaseline />
       <DocumentsProvider>{children}</DocumentsProvider>
     </ThemeProvider>

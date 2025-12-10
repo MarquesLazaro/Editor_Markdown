@@ -39,6 +39,7 @@ import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
 import Toast from "../Toast/Toast";
+import { useThemeContext } from "@/app/context/ThemeContext";
 interface ToolBarProps {
   ref: RefObject<HTMLTextAreaElement | null>;
   title: string;
@@ -49,9 +50,10 @@ const ToolBar = ({ ref, title }: ToolBarProps) => {
   const router = useRouter();
   const { updateDocument, currentDocumentId, content, setContent } =
     useDocumentsContext();
+
+  const { theme: themeValue, setTheme } = useThemeContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [editTitle, setEditTitle] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>(title);
 
   const selectAndEditText = (editFn: (text: string) => string) => {
@@ -77,9 +79,8 @@ const ToolBar = ({ ref, title }: ToolBarProps) => {
     router.push("/");
   };
 
-  const handleSave = () => {
-    updateDocument(currentDocumentId, { content });
-    setOpenSnackbar(true);
+  const handleChangeTheme = () => {
+    themeValue === "light" ? setTheme("dark") : setTheme("light");
   };
 
   const handleCloseSnackbar = () => {
@@ -190,7 +191,7 @@ const ToolBar = ({ ref, title }: ToolBarProps) => {
               justifyContent: "flex-end",
             }}
           >
-            <ToolBarButton onClick={handleSave}>
+            <ToolBarButton onClick={handleChangeTheme}>
               <WbSunnyIcon />
             </ToolBarButton>
             <ToolBarButton onClick={handleOpenModal}>
