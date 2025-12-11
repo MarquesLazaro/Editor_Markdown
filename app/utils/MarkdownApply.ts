@@ -63,15 +63,20 @@ export const toUnorderedList = (text: string) => {
 
 export const toOrderedList = (text: string) => {
   const elements = text.split("\n");
+  let idx = 1;
 
   if (text.length === 0) return text;
 
   return elements
-    .map((item, idx) => {
+    .map((item) => {
       if (item.length === 0) return item;
-      if (item.startsWith(`${idx + 1}. `)) return item.slice(2);
+      if (item.startsWith(`${idx}. `)) {
+        idx += 1;
+        return item.slice(3);
+      }
 
-      return `${idx + 1}. ${item}`;
+      idx += 1;
+      return `${idx - 1}. ${item}`;
     })
     .join("\n");
 };
