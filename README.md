@@ -83,9 +83,6 @@ http://localhost:3000/
 * **Atalhos de Teclado:**
   Atalhos podem ser visualizados ao passar o mouse sobre os botões da barra de ferramentas.
 
-* **Desfazer Alterações (Undo):**
-  Desfaça alterações apertando `Ctrl + Z`.
-
 * **Renomear Documento pelo Título no Editor:**
   O título do documento pode ser alterado diretamente na tela do editor.
 
