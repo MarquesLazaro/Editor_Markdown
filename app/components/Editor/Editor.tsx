@@ -17,7 +17,7 @@ import { useTheme } from "@mui/material";
 import { useEffect } from "react";
 
 const Editor = () => {
-  const { currentDocumentId, content, setContent, undo, setSaveStatus } =
+  const { currentDocumentId, content, setContent, setSaveStatus } =
     useDocumentsContext();
   const { textareaRef, format, setFormat } = useEditorContext();
   const theme = useTheme();
@@ -107,9 +107,6 @@ const Editor = () => {
         default:
           break;
       }
-    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() == "z") {
-      e.preventDefault();
-      undo();
     }
   };
 
