@@ -13,7 +13,7 @@ import {
   toUnorderedList,
 } from "@/app/utils/MarkdownApply";
 import { useTheme } from "@mui/material";
-import { RefObject, useEffect } from "react";
+import { useEffect } from "react";
 
 const Editor = () => {
   const { currentDocumentId, content, setContent } = useDocumentsContext();
@@ -74,6 +74,38 @@ const Editor = () => {
     textarea.focus();
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.ctrlKey || (e.metaKey && e.shiftKey)) {
+      const key = e.key.toLowerCase();
+
+      switch (key) {
+        case "b":
+          setFormat(MarkdownFormats.bold);
+          break;
+        case "i":
+          setFormat(MarkdownFormats.italic);
+          break;
+        case "h":
+          setFormat(MarkdownFormats.heading);
+          break;
+        case "u":
+          setFormat(MarkdownFormats.ulist);
+          break;
+        case "o":
+          setFormat(MarkdownFormats.olist);
+          break;
+        case "k":
+          setFormat(MarkdownFormats.code);
+          break;
+        case "q":
+          setFormat(MarkdownFormats.quote);
+          break;
+        default:
+          break;
+      }
+    }
+  };
+
   if (!currentDocumentId) return null;
 
   return (
@@ -81,6 +113,7 @@ const Editor = () => {
       value={content}
       ref={textareaRef}
       onChange={(e) => setContent(e.target.value)}
+      onKeyDown={handleKeyDown}
       placeholder="Escreva aqui..."
       style={{
         width: "100%",
