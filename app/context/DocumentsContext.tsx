@@ -21,6 +21,7 @@ interface DocumentsProviderProps {
 interface DocumentsContextProps {
   currentDocumentId: string;
   content: string;
+  undo: () => void;
   setContent: Dispatch<SetStateAction<string>>;
   setCurrentDocumentId: Dispatch<SetStateAction<string>>;
   getDocuments: () => Document[];
@@ -33,6 +34,7 @@ interface DocumentsContextProps {
 export const DocumentsContext = createContext<DocumentsContextProps>({
   content: "",
   currentDocumentId: "",
+  undo: () => {},
   setContent: () => null,
   setCurrentDocumentId: () => null,
   getDocuments: () => [],
@@ -43,6 +45,7 @@ export const DocumentsContext = createContext<DocumentsContextProps>({
 });
 
 const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
+  const [history, setHistory] = useState<string[]>([]);
   const [currentDocumentId, setCurrentDocumentId] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
@@ -100,11 +103,21 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
         return doc;
       })
     );
+    setHistory((prevHistory) => [...prevHistory, content]);
+  };
+
+  const undo = () => {
+    if (history.length === 0) return;
+
+    const lastContent = history.pop();
+    setContent((prev) => lastContent ?? prev);
+    setHistory([...history]);
   };
 
   const value = {
     content,
     currentDocumentId,
+    undo,
     setContent,
     setCurrentDocumentId,
     getDocuments,

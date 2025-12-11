@@ -16,7 +16,8 @@ import { useTheme } from "@mui/material";
 import { useEffect } from "react";
 
 const Editor = () => {
-  const { currentDocumentId, content, setContent } = useDocumentsContext();
+  const { currentDocumentId, content, setContent, undo } =
+    useDocumentsContext();
   const { textareaRef, format, setFormat } = useEditorContext();
   const theme = useTheme();
 
@@ -75,7 +76,7 @@ const Editor = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.ctrlKey || (e.metaKey && e.shiftKey)) {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
       const key = e.key.toLowerCase();
 
       switch (key) {
@@ -100,6 +101,8 @@ const Editor = () => {
         case "q":
           setFormat(MarkdownFormats.quote);
           break;
+        case "z":
+          undo();
         default:
           break;
       }
