@@ -36,23 +36,6 @@ export default function ViewDocument() {
     >
       <ToolBar />
       <DocumentEditorAndPreview />
-
-      {/* <AppBar
-        position="fixed"
-        sx={{
-          height: "sm",
-          bottom: 0,
-          top: "auto",
-          backgroundColor: theme.palette.primary.main,
-          borderRadius: 0,
-        }}
-      >
-        <Toolbar sx={{ color: theme.palette.text.primary }}>
-          <Typography variant="body2" sx={{ flexGrow: 1, textAlign: "center" }}>
-            &copy; 2025 Meu Projeto - Todos os direitos reservados.
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
     </Box>
   );
 }
