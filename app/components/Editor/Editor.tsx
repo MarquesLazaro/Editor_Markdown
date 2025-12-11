@@ -67,6 +67,7 @@ const Editor = () => {
     const newContent =
       content.slice(0, start) + editedText + content.slice(end);
 
+    setSaveStatus(SaveStatus.SAVING);
     setContent(newContent);
 
     textarea.value = newContent;
@@ -103,11 +104,12 @@ const Editor = () => {
         case "q":
           setFormat(MarkdownFormats.quote);
           break;
-        case "z":
-          undo();
         default:
           break;
       }
+    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() == "z") {
+      e.preventDefault();
+      undo();
     }
   };
 

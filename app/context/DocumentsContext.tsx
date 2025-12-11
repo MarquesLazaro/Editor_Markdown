@@ -112,15 +112,16 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
         return doc;
       })
     );
+
     setHistory((prevHistory) => [...prevHistory, content]);
   };
 
   const undo = () => {
     if (history.length === 0) return;
 
-    const lastContent = history.pop();
+    const lastContent = history[history.length - 1];
     setContent((prev) => lastContent ?? prev);
-    setHistory([...history]);
+    setHistory([...history.slice(0, -1)]);
   };
 
   const value: DocumentsContextProps = {
