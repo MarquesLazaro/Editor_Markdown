@@ -1,15 +1,14 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import ToolBar from "@/app/components/ToolBar/ToolBar";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import DocumentEditorAndPreview from "@/app/components/EditorAndPreview/EditorAndPreview";
-import { AppBar, Box, Toolbar, Typography, useTheme } from "@mui/material";
+import { Box } from "@mui/material";
 
 export default function ViewDocument() {
   const { id } = useParams<{ id: string }>();
-  const theme = useTheme();
 
   const { getOneDocument, setCurrentDocumentId, setContent } =
     useDocumentsContext();

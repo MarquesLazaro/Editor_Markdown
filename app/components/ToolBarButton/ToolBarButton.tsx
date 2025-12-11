@@ -1,3 +1,4 @@
+"use client";
 import { IconButton, Tooltip, useTheme } from "@mui/material";
 
 interface ToolBarButton {

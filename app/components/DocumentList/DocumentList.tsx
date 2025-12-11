@@ -1,3 +1,4 @@
+"use client";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import { Document } from "@/app/types/Document";
 import {
@@ -49,7 +50,6 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
 
   return (
     <>
-      
       <Box
         sx={{
           minHeight: "100vh",

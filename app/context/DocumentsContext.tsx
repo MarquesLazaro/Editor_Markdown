@@ -13,6 +13,7 @@ import {
   UpdateDocumentDTO,
 } from "../types/Document";
 import { mockDocuments } from "../mocks/Documents";
+import { SaveStatus } from "../types/SaveStatus";
 
 interface DocumentsProviderProps {
   children: React.ReactNode;
@@ -21,6 +22,8 @@ interface DocumentsProviderProps {
 interface DocumentsContextProps {
   currentDocumentId: string;
   content: string;
+  saveStatus: SaveStatus;
+  setSaveStatus: Dispatch<SetStateAction<SaveStatus>>;
   undo: () => void;
   setContent: Dispatch<SetStateAction<string>>;
   setCurrentDocumentId: Dispatch<SetStateAction<string>>;
@@ -34,6 +37,8 @@ interface DocumentsContextProps {
 export const DocumentsContext = createContext<DocumentsContextProps>({
   content: "",
   currentDocumentId: "",
+  saveStatus: SaveStatus.SAVE,
+  setSaveStatus: () => null,
   undo: () => {},
   setContent: () => null,
   setCurrentDocumentId: () => null,
@@ -49,6 +54,7 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   const [currentDocumentId, setCurrentDocumentId] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [documents, setDocuments] = useState<Document[]>(mockDocuments);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>(SaveStatus.SAVE);
 
   useEffect(() => {
     const local = localStorage.getItem("documents");
@@ -65,9 +71,12 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       updateDocument(currentDocumentId, { content });
+      setSaveStatus(SaveStatus.SAVE);
     }, 500);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [content]);
 
   const getDocuments = () => {
@@ -114,9 +123,11 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
     setHistory([...history]);
   };
 
-  const value = {
+  const value: DocumentsContextProps = {
     content,
     currentDocumentId,
+    saveStatus,
+    setSaveStatus,
     undo,
     setContent,
     setCurrentDocumentId,

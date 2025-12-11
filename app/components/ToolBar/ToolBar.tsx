@@ -6,6 +6,7 @@ import {
   IconButton,
   Box,
   TextField,
+  Typography,
 } from "@mui/material";
 
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
@@ -30,11 +31,12 @@ import Toast from "../Toast/Toast";
 import { useThemeContext } from "@/app/context/ThemeContext";
 import { MarkdownFormats } from "@/app/types/MarkdownFormats";
 import { useEditorContext } from "@/app/context/EditorContext";
+import SaveStatusView from "../SaveStatusView/SaveStatusView";
 
 const ToolBar = () => {
   const theme = useTheme();
   const router = useRouter();
-  const { updateDocument, currentDocumentId, getOneDocument } =
+  const { updateDocument, currentDocumentId, getOneDocument, saveStatus } =
     useDocumentsContext();
 
   const { theme: themeValue, setTheme } = useThemeContext();
@@ -186,8 +188,10 @@ const ToolBar = () => {
               gap: 3,
               flex: 1,
               justifyContent: "flex-end",
+              alignItems: "center",
             }}
           >
+            <SaveStatusView status={saveStatus} />
             <ToolBarButton title="Alternar Tema" onClick={handleChangeTheme}>
               {themeValue === "light" ? <NightsStayIcon /> : <WbSunnyIcon />}
             </ToolBarButton>

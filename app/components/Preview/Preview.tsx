@@ -15,7 +15,6 @@ interface MarkdownRendererProps {
   [key: string]: any;
 }
 
-
 const muiRenderers: Components = {
   p: ({ node, ...props }: MarkdownRendererProps) => (
     <Typography
@@ -104,7 +103,6 @@ const muiRenderers: Components = {
       {...props}
     />
   ),
-
 };
 
 const Preview = () => {

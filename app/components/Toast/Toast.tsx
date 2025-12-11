@@ -1,3 +1,4 @@
+"use client";
 import { Alert, AlertColor, Snackbar } from "@mui/material";
 
 interface ToastProps {

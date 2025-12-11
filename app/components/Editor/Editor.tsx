@@ -3,6 +3,7 @@
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import { useEditorContext } from "@/app/context/EditorContext";
 import { MarkdownFormats } from "@/app/types/MarkdownFormats";
+import { SaveStatus } from "@/app/types/SaveStatus";
 import {
   toBlockquote,
   toBold,
@@ -16,7 +17,7 @@ import { useTheme } from "@mui/material";
 import { useEffect } from "react";
 
 const Editor = () => {
-  const { currentDocumentId, content, setContent, undo } =
+  const { currentDocumentId, content, setContent, undo, setSaveStatus } =
     useDocumentsContext();
   const { textareaRef, format, setFormat } = useEditorContext();
   const theme = useTheme();
@@ -78,6 +79,7 @@ const Editor = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey) {
       const key = e.key.toLowerCase();
+      e.preventDefault();
 
       switch (key) {
         case "b":
@@ -115,7 +117,12 @@ const Editor = () => {
     <textarea
       value={content}
       ref={textareaRef}
-      onChange={(e) => setContent(e.target.value)}
+      id="conteudo"
+      name="conteudo"
+      onChange={(e) => {
+        setSaveStatus(SaveStatus.SAVING);
+        setContent(e.target.value);
+      }}
       onKeyDown={handleKeyDown}
       placeholder="Escreva aqui..."
       style={{
