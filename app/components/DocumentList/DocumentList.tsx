@@ -7,7 +7,6 @@ import {
   useTheme,
   Button,
   Divider,
-  AppBar,
 } from "@mui/material";
 
 import { useRouter } from "next/navigation";

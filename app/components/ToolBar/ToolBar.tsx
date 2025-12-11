@@ -5,21 +5,8 @@ import {
   useTheme,
   IconButton,
   Box,
-  Typography,
   TextField,
-  Button,
-  Switch,
 } from "@mui/material";
-
-import {
-  toHeading,
-  toInlineCode,
-  toItalic,
-  toBold,
-  toUnorderedList,
-  toOrderedList,
-  toBlockquote,
-} from "@/app/utils/MarkdownApply";
 
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import FormatItalicIcon from "@mui/icons-material/FormatItalic";
@@ -34,7 +21,7 @@ import NightsStayIcon from "@mui/icons-material/NightsStay";
 
 import { MdTextFields } from "react-icons/md";
 
-import { RefObject, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import ToolBarButton from "../ToolBarButton/ToolBarButton";
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
@@ -82,6 +69,9 @@ const ToolBar = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
+  const handleOnBlur = () =>
+    updateDocument(currentDocumentId, { title: newTitle });
 
   if (!currentDocumentId) return;
 
@@ -171,9 +161,7 @@ const ToolBar = () => {
               variant="standard"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              onBlur={() =>
-                updateDocument(currentDocumentId, { title: newTitle })
-              }
+              onBlur={handleOnBlur}
               slotProps={{
                 input: {
                   disableUnderline: true,
@@ -200,16 +188,10 @@ const ToolBar = () => {
               justifyContent: "flex-end",
             }}
           >
-            <ToolBarButton
-              title="Alternar Tema"
-              onClick={handleChangeTheme}
-            >
+            <ToolBarButton title="Alternar Tema" onClick={handleChangeTheme}>
               {themeValue === "light" ? <NightsStayIcon /> : <WbSunnyIcon />}
             </ToolBarButton>
-            <ToolBarButton
-              title="Deletar Documento"
-              onClick={handleOpenModal}
-            >
+            <ToolBarButton title="Deletar Documento" onClick={handleOpenModal}>
               <DeleteIcon />
             </ToolBarButton>
           </Box>
