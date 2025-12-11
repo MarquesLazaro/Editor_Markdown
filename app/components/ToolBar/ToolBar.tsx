@@ -116,31 +116,52 @@ const ToolBar = () => {
               <HomeFilledIcon />
             </IconButton>
 
-            <ToolBarButton onClick={() => setFormat(MarkdownFormats.heading)}>
+            <ToolBarButton
+              title="Cabeçalho - Crtl + Shift + H"
+              onClick={() => setFormat(MarkdownFormats.heading)}
+            >
               <MdTextFields />
             </ToolBarButton>
 
-            <ToolBarButton onClick={() => setFormat(MarkdownFormats.bold)}>
+            <ToolBarButton
+              title="Cabeçalho - Crtl + Shift + B"
+              onClick={() => setFormat(MarkdownFormats.bold)}
+            >
               <FormatBoldIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={() => setFormat(MarkdownFormats.italic)}>
+            <ToolBarButton
+              title="Cabeçalho - Crtl + Shift + I"
+              onClick={() => setFormat(MarkdownFormats.italic)}
+            >
               <FormatItalicIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={() => setFormat(MarkdownFormats.code)}>
+            <ToolBarButton
+              title="Cabeçalho - Crtl + Shift + K"
+              onClick={() => setFormat(MarkdownFormats.code)}
+            >
               <CodeIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={() => setFormat(MarkdownFormats.ulist)}>
+            <ToolBarButton
+              title="Cabeçalho - Crtl + Shift + U"
+              onClick={() => setFormat(MarkdownFormats.ulist)}
+            >
               <FormatListBulletedIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={() => setFormat(MarkdownFormats.olist)}>
+            <ToolBarButton
+              title="Cabeçalho - Crtl + Shift + O"
+              onClick={() => setFormat(MarkdownFormats.olist)}
+            >
               <FormatListNumberedIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={() => setFormat(MarkdownFormats.quote)}>
+            <ToolBarButton
+              title="Cabeçalho - Crtl + Shift + Q"
+              onClick={() => setFormat(MarkdownFormats.quote)}
+            >
               <FormatQuoteIcon />
             </ToolBarButton>
           </Box>
@@ -179,10 +200,16 @@ const ToolBar = () => {
               justifyContent: "flex-end",
             }}
           >
-            <ToolBarButton onClick={handleChangeTheme}>
+            <ToolBarButton
+              title="Alternar Tema"
+              onClick={handleChangeTheme}
+            >
               {themeValue === "light" ? <NightsStayIcon /> : <WbSunnyIcon />}
             </ToolBarButton>
-            <ToolBarButton onClick={handleOpenModal}>
+            <ToolBarButton
+              title="Deletar Documento"
+              onClick={handleOpenModal}
+            >
               <DeleteIcon />
             </ToolBarButton>
           </Box>

@@ -1,29 +1,31 @@
-import { IconButton, useTheme } from "@mui/material";
+import { IconButton, Tooltip, useTheme } from "@mui/material";
 
-const ToolBarButton = ({
-  onClick,
-  children,
-}: {
+interface ToolBarButton {
   onClick: () => void;
   children: React.ReactNode;
-}) => {
+  title: string;
+}
+
+const ToolBarButton = ({ onClick, children, title }: ToolBarButton) => {
   const theme = useTheme();
 
   return (
-    <IconButton
-      edge="start"
-      sx={{
-        borderRadius: 2,
-        color: theme.palette.primary.contrastText, 
-        "&:hover": {
-          backgroundColor: theme.palette.primary.light, 
+    <Tooltip title={title}>
+      <IconButton
+        edge="start"
+        sx={{
           borderRadius: 2,
-        },
-      }}
-      onClick={onClick}
-    >
-      {children}
-    </IconButton>
+          color: theme.palette.primary.contrastText,
+          "&:hover": {
+            backgroundColor: theme.palette.primary.light,
+            borderRadius: 2,
+          },
+        }}
+        onClick={onClick}
+      >
+        {children}
+      </IconButton>
+    </Tooltip>
   );
 };
 
