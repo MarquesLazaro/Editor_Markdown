@@ -3,15 +3,10 @@
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Editor from "../Editor/Editor";
-import { RefObject } from "react";
 import Preview from "../Preview/Preview";
 import { useTheme } from "@mui/material";
 
-interface EditorAndPreviewProps {
-  ref: RefObject<HTMLTextAreaElement | null>;
-}
-
-const EditorAndPreview = ({ ref }: EditorAndPreviewProps) => {
+const EditorAndPreview = () => {
   const theme = useTheme();
 
   return (
@@ -30,7 +25,7 @@ const EditorAndPreview = ({ ref }: EditorAndPreviewProps) => {
           overflow: "hidden",
         }}
       >
-        <Editor ref={ref} />
+        <Editor />
       </Box>
 
       <Box

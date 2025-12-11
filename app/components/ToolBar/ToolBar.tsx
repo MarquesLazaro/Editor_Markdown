@@ -41,22 +41,17 @@ import { useDocumentsContext } from "@/app/context/DocumentsContext";
 import DeleteDocumentModal from "../DeleteDocumentModal/DeleteDocumentModal";
 import Toast from "../Toast/Toast";
 import { useThemeContext } from "@/app/context/ThemeContext";
-interface ToolBarProps {
-  ref: RefObject<HTMLTextAreaElement | null>;
-}
+import { MarkdownFormats } from "@/app/types/MarkdownFormats";
+import { useEditorContext } from "@/app/context/EditorContext";
 
-const ToolBar = ({ ref }: ToolBarProps) => {
+const ToolBar = () => {
   const theme = useTheme();
   const router = useRouter();
-  const {
-    updateDocument,
-    currentDocumentId,
-    content,
-    setContent,
-    getOneDocument,
-  } = useDocumentsContext();
+  const { updateDocument, currentDocumentId, getOneDocument } =
+    useDocumentsContext();
 
   const { theme: themeValue, setTheme } = useThemeContext();
+  const { setFormat } = useEditorContext();
   const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [newTitle, setNewTitle] = useState<string>("");
@@ -67,31 +62,6 @@ const ToolBar = ({ ref }: ToolBarProps) => {
       setNewTitle(document.title);
     }
   }, [document]);
-
-  const selectAndEditText = (editFn: (text: string) => string) => {
-    return () => {
-      const textarea = ref.current;
-
-      if (!textarea) return;
-
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-
-      const selectedText = content.slice(start, end);
-      const editedText = editFn(selectedText);
-
-      const newContent =
-        content.slice(0, start) + editedText + content.slice(end);
-
-      setContent(newContent);
-
-      textarea.value = newContent;
-      const newEnd = start + editedText.length;
-
-      textarea.setSelectionRange(start, newEnd);
-      textarea.focus();
-    };
-  };
 
   const handleToDocuments = () => {
     router.push("/");
@@ -146,31 +116,31 @@ const ToolBar = ({ ref }: ToolBarProps) => {
               <HomeFilledIcon />
             </IconButton>
 
-            <ToolBarButton onClick={selectAndEditText(toHeading)}>
+            <ToolBarButton onClick={() => setFormat(MarkdownFormats.heading)}>
               <MdTextFields />
             </ToolBarButton>
 
-            <ToolBarButton onClick={selectAndEditText(toBold)}>
+            <ToolBarButton onClick={() => setFormat(MarkdownFormats.bold)}>
               <FormatBoldIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={selectAndEditText(toItalic)}>
+            <ToolBarButton onClick={() => setFormat(MarkdownFormats.italic)}>
               <FormatItalicIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={selectAndEditText(toInlineCode)}>
+            <ToolBarButton onClick={() => setFormat(MarkdownFormats.code)}>
               <CodeIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={selectAndEditText(toUnorderedList)}>
+            <ToolBarButton onClick={() => setFormat(MarkdownFormats.ulist)}>
               <FormatListBulletedIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={selectAndEditText(toOrderedList)}>
+            <ToolBarButton onClick={() => setFormat(MarkdownFormats.olist)}>
               <FormatListNumberedIcon />
             </ToolBarButton>
 
-            <ToolBarButton onClick={selectAndEditText(toBlockquote)}>
+            <ToolBarButton onClick={() => setFormat(MarkdownFormats.quote)}>
               <FormatQuoteIcon />
             </ToolBarButton>
           </Box>

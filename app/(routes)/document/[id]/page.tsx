@@ -12,7 +12,6 @@ export default function ViewDocument() {
 
   const { getOneDocument, setCurrentDocumentId, setContent } =
     useDocumentsContext();
-  const ref = useRef<HTMLTextAreaElement | null>(null);
   const document = getOneDocument(id);
 
   useEffect(() => {
@@ -34,8 +33,8 @@ export default function ViewDocument() {
         overflow: "hidden",
       }}
     >
-      <ToolBar ref={ref} title={document.title} />
-      <DocumentEditorAndPreview ref={ref} />
+      <ToolBar />
+      <DocumentEditorAndPreview />
     </Box>
   );
 }

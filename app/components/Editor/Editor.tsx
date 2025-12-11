@@ -1,19 +1,27 @@
 "use client";
 
 import { useDocumentsContext } from "@/app/context/DocumentsContext";
+import { useEditorContext } from "@/app/context/EditorContext";
+import { MarkdownFormats } from "@/app/types/MarkdownFormats";
+import {
+  toBlockquote,
+  toBold,
+  toHeading,
+  toInlineCode,
+  toItalic,
+  toOrderedList,
+  toUnorderedList,
+} from "@/app/utils/MarkdownApply";
 import { useTheme } from "@mui/material";
-import { RefObject, Dispatch, SetStateAction, useEffect } from "react";
+import { RefObject, useEffect } from "react";
 
-interface EditorProps {
-  ref: RefObject<HTMLTextAreaElement | null>;
-}
-
-const Editor = ({ ref }: EditorProps) => {
+const Editor = () => {
   const { currentDocumentId, content, setContent } = useDocumentsContext();
+  const { textareaRef, format, setFormat } = useEditorContext();
   const theme = useTheme();
 
   useEffect(() => {
-    const textarea = ref.current;
+    const textarea = textareaRef.current;
 
     if (textarea) {
       const end = textarea.value.length;
@@ -23,12 +31,55 @@ const Editor = ({ ref }: EditorProps) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (format === MarkdownFormats.bold) {
+      selectAndEditText(toBold);
+    } else if (format === MarkdownFormats.heading) {
+      selectAndEditText(toHeading);
+    } else if (format === MarkdownFormats.italic) {
+      selectAndEditText(toItalic);
+    } else if (format === MarkdownFormats.code) {
+      selectAndEditText(toInlineCode);
+    } else if (format === MarkdownFormats.quote) {
+      selectAndEditText(toBlockquote);
+    } else if (format === MarkdownFormats.ulist) {
+      selectAndEditText(toUnorderedList);
+    } else if (format === MarkdownFormats.olist) {
+      selectAndEditText(toOrderedList);
+    }
+
+    setFormat(MarkdownFormats.nothing);
+  }, [format]);
+
+  const selectAndEditText = (editFn: (text: string) => string) => {
+    const textarea = textareaRef.current;
+
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+
+    const selectedText = content.slice(start, end);
+    const editedText = editFn(selectedText);
+
+    const newContent =
+      content.slice(0, start) + editedText + content.slice(end);
+
+    setContent(newContent);
+
+    textarea.value = newContent;
+    const newEnd = start + editedText.length;
+
+    textarea.setSelectionRange(start, newEnd);
+    textarea.focus();
+  };
+
   if (!currentDocumentId) return null;
 
   return (
     <textarea
       value={content}
-      ref={ref}
+      ref={textareaRef}
       onChange={(e) => setContent(e.target.value)}
       placeholder="Escreva aqui..."
       style={{

@@ -62,7 +62,6 @@ const DocumentsProvider = ({ children }: DocumentsProviderProps) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       updateDocument(currentDocumentId, { content });
-      console.log("oiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
     }, 500);
 
     return () => clearTimeout(timer);
