@@ -34,7 +34,7 @@ const DocumentsList = ({ documents }: DocumentListProps) => {
       content: "",
     });
 
-    router.push(`/${id}`);
+    router.push(`/document/${id}`);
   };
 
   const handleOpenModal = (id: string) => {
